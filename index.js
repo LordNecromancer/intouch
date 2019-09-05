@@ -7,7 +7,6 @@ const cookieSession=require('cookie-session');
 require('./models/users');
 
 const User=mongoose.model('users');
-console.log(User);
 
 
 const app=express();
@@ -42,7 +41,6 @@ passport.use(new googleStrategy({
     clientID : keys.googleClientID,
     clientSecret:keys.googleClientSecret,
     callbackURL:'/googleoauth/callback',
-    //important
     proxy :true
 },
 
