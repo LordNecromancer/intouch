@@ -41,7 +41,9 @@ try {
 passport.use(new googleStrategy({
     clientID : keys.googleClientID,
     clientSecret:keys.googleClientSecret,
-    callbackURL:'http://localhost:5000/googleoauth/callback',
+    callbackURL:'/googleoauth/callback',
+    //important
+    proxy :true
 },
 
     async (accessToken, refreshToken,profile,done)=>{
