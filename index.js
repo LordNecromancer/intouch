@@ -35,7 +35,7 @@ passport.deserializeUser(async (id,done)=>{
 try {
     mongoose.connect(keys.mongoURI);
 }catch (e) {
-
+    console.log('Error :       '+e);
 }
 passport.use(new googleStrategy({
     clientID : keys.googleClientID,
@@ -46,7 +46,25 @@ passport.use(new googleStrategy({
 
     async (accessToken, refreshToken,profile,done)=>{
 
-    return done(null,profile);
+
+        try{
+
+            const existingUser= await User.findOne({googleId: profile.id});
+
+            if(existingUser){
+
+                return done(null,existingUser);
+
+            }
+            const user=await  new User({
+                googleId:profile.id
+            }).save();
+
+            return done(null,user);
+        }catch (e) {
+            console.log('Error :       '+e);
+
+        }
    }));
 
 app.get(
