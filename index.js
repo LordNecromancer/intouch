@@ -68,7 +68,7 @@ passport.use(new googleStrategy({
 
 app.get(
     '/googleoauth/callback',
-    passport.authenticate('google'),
+    passport.authenticate('google', { failureRedirect: '/login' }),
     (req,res)=>{
         res.redirect('/welcome');
     }
