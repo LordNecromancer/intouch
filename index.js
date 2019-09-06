@@ -41,30 +41,12 @@ passport.use(new googleStrategy({
     clientID : keys.googleClientID,
     clientSecret:keys.googleClientSecret,
     callbackURL:'/googleoauth/callback',
-   // proxy :true
+    proxy :true
 },
 
     async (accessToken, refreshToken,profile,done)=>{
 
-
-        try{
-
-            const existingUser= await User.findOne({googleId: profile.id});
-
-            if(existingUser){
-
-                return done(null,existingUser);
-
-            }
-            const user=await  new User({
-                googleId:profile.id
-            }).save();
-
-            return done(null,user);
-        }catch (e) {
-           // console.log('Error :       '+e);
-
-        }
+    return done(null,profile);
    }));
 
 app.get(
