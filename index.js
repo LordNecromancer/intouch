@@ -26,8 +26,8 @@ passport.serializeUser((user,done)=>{
 });
 
 passport.deserializeUser(async (id,done)=>{
-  // const user=await User.findById(id);
-   done(null,id);
+   const user=await User.findById(id);
+   done(null,user);
 
 })
 
@@ -35,7 +35,7 @@ passport.deserializeUser(async (id,done)=>{
 try {
     mongoose.connect(keys.mongoURI);
 }catch (e) {
-    console.log('Error :       '+e);
+
 }
 passport.use(new googleStrategy({
     clientID : keys.googleClientID,
@@ -47,7 +47,6 @@ passport.use(new googleStrategy({
     async (accessToken, refreshToken,profile,done)=>{
 
 
-    return done(null, profile);
         try{
 
             const existingUser= await User.findOne({googleId: profile.id});
@@ -63,7 +62,7 @@ passport.use(new googleStrategy({
 
             return done(null,user);
         }catch (e) {
-            console.log('Error :       '+e);
+           // console.log('Error :       '+e);
 
         }
    }));
@@ -92,7 +91,6 @@ app.get(
 app.get(
     '/api/current_user',
     (req,res)=>{
-        console.log(req);
         res.send(req.user);
     }
 );
