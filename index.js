@@ -26,8 +26,8 @@ passport.serializeUser((user,done)=>{
 });
 
 passport.deserializeUser(async (id,done)=>{
-   const user=await User.findById(id);
-   done(null,user);
+  // const user=await User.findById(id);
+   done(null,id);
 
 })
 
@@ -47,6 +47,7 @@ passport.use(new googleStrategy({
     async (accessToken, refreshToken,profile,done)=>{
 
 
+    return done(null, profile);
         try{
 
             const existingUser= await User.findOne({googleId: profile.id});
@@ -91,6 +92,7 @@ app.get(
 app.get(
     '/api/current_user',
     (req,res)=>{
+        console.log(req);
         res.send(req.user);
     }
 );
