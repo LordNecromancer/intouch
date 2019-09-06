@@ -43,7 +43,6 @@ passport.use(new googleStrategy({
     callbackURL:'/googleoauth/callback',
     proxy :true
 },
-
     async (accessToken, refreshToken,profile,done)=>{
 
 
