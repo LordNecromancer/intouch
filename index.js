@@ -1,16 +1,21 @@
 const express=require('express');
 const mongoose=require('mongoose');
 const passport=require('passport');
+const BodyParser=require('body-parser');
 const googleStrategy=require('passport-google-oauth20').Strategy;
 const keys= require('./configs/keys');
 const cookieSession=require('cookie-session');
 require('./models/users');
+require('./models/posts');
 
 const User=mongoose.model('users');
+const Post=mongoose.model('posts');
 
 
 const app=express();
 
+
+app.use(BodyParser.json());
 app.use(
     cookieSession({
         maxAge : 3*24*60*60*1000,
@@ -68,9 +73,9 @@ passport.use(new googleStrategy({
 
 app.get(
     '/googleoauth/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
+    passport.authenticate('google'),
     (req,res)=>{
-        res.redirect('/welcome');
+        res.redirect('/dashboard');
     }
 );
 app.get(
@@ -80,6 +85,28 @@ app.get(
     })
 );
 
+app.get(
+    '/api/posts',
+   async (req,res) =>{
+        const posts=await Post.find({_user :req.user.id});
+        res.send(posts);
+    }
+);
+app.post(
+    '/api/post',
+   async (req,res) =>{
+        console.log(req.body);
+        const {title,content} =req.body;
+
+        await new Post({
+            title : title,
+            content:content,
+            _user: req.user.id
+        }).save();
+
+        res.send(req.user);
+    }
+);
 app.get(
     '/api/logout',
     (req,res) =>{
@@ -93,6 +120,17 @@ app.get(
         res.send(req.user);
     }
 );
+
+
+if(process.env.NODE_ENV==='production'){
+
+    app.use(express.static('/client/build'));
+
+    const path =require('path');
+    app.get('*', (req,res) => {
+        res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+    })
+}
 
 const PORT=process.env.PORT || 5000;
 
