@@ -1,6 +1,8 @@
 const express=require('express');
 const mongoose=require('mongoose');
 const passport=require('passport');
+const path =require('path');
+
 const BodyParser=require('body-parser');
 const googleStrategy=require('passport-google-oauth20').Strategy;
 const keys= require('./configs/keys');
@@ -124,11 +126,10 @@ app.get(
 
 if(process.env.NODE_ENV==='production'){
 
-    app.use(express.static('/client/build'));
+    app.use(express.static(path.join(__dirname,'/client/build')));
 
-    const path =require('path');
     app.get('*', (req,res) => {
-        res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+        res.sendFile(path.join(__dirname,'client/build','index.html'));
     })
 }
 
