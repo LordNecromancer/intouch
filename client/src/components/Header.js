@@ -12,7 +12,18 @@ class Header extends Component{
             case null :
                 return;
             case false :
-                return <li><a href="/login"> login with google </a></li>;
+                return [
+                    <li><a href="/login/google/oauth"> login with google </a></li>,
+                    <li><Link to='/sign_up' >
+                        Sign Up
+                    </Link>
+                    </li>,
+                    <li><Link to='/log_in'>login</Link></li>
+
+
+
+                ];
+
             default :
                 return [
                     <li><a href="/api/logout"> logout</a></li>,

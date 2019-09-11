@@ -7,6 +7,9 @@ import Landing from "./Landing";
 import Dashboard from "./Dashboard";
 import * as actions from '../actions';
 import NewPostForm from "./post/NewPostForm";
+import OtherUser from "./OtherUser";
+import SignUpForm from "./registering/SignUpForm";
+import LogInForm from "./registering/LogInForm";
 
 class App extends Component{
     componentDidMount() {
@@ -22,6 +25,12 @@ class App extends Component{
                         <Route exact path="/" component={Landing}/>
                         <Route exact path="/dashboard" component={Dashboard}/>
                         <Route exact path="/post/new" component={NewPostForm}/>
+                        <Route  path="/sign_up" component={SignUpForm}/>
+                        <Route  path="/log_in" component={LogInForm}/>
+
+
+                        <Route  path="/users/:name" component={OtherUser}/>
+
 
 
                     </div>

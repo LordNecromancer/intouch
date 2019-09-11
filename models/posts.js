@@ -5,7 +5,9 @@ const {Schema} =mongoose;
 const postSchema = new Schema({
     title : String,
     content:String,
-    _user:{type : Schema.Types.ObjectId , ref :'users'}
+    counter:Number,
+    _user:{type : Schema.Types.ObjectId , ref :'users'},
+    likes:[{type:Schema.Types.ObjectId, ref:'users'}]
 });
 
 mongoose.model('posts',postSchema);

@@ -1,15 +1,13 @@
-import {FETCH_POSTS} from "../actions/types";
+import {FETCH_POSTS, FIND_USER} from "../actions/types";
 
-export default function postReducer(state=[],actions){
+export default function findUserReducer(state=[],actions){
 
     console.log(actions.payload)
     switch (actions.type) {
 
         case FETCH_POSTS :
-
             return actions.payload;
-
-        default :
+            default :
             return state;
     }
 }

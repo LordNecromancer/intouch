@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
-import {fetchPosts} from "../actions";
+import {fetchPosts,likePost} from "../actions";
+import SearchBar from "./SearchBar";
 
 class Dashboard extends Component{
 
@@ -12,8 +13,10 @@ class Dashboard extends Component{
     render() {
         return(
             <div className="push-s3">
+            <SearchBar/>
                 <ul>
                     {this.props.posts.reverse().map((post) =>{
+                        console.log(post.id)
 
                         return(
                         <div className="row ">
@@ -24,11 +27,16 @@ class Dashboard extends Component{
                                         <p>
                                             {post.content}
                                         </p>
+
+                                        <p>
+                                            likes : {post.counter}
+                                        </p>
                                     </div>
-                                    {/*<div className="card-action">*/}
-                                    {/*    <a href="#">This is a link</a>*/}
-                                    {/*    <a href="#">This is a link</a>*/}
-                                    {/*</div>*/}
+                                    <div className="card-action">
+                                        <button onClick={()=>this.props.likePost(post._id)}>
+                                            Like
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -41,8 +49,9 @@ class Dashboard extends Component{
 
 function mapStateToProps(state) {
     return {
-        posts:state.posts
+        posts:state.posts,
+        friendPosts:state.find
     }
 }
 
-export default connect(mapStateToProps,{fetchPosts})(Dashboard);
+export default connect(mapStateToProps,{fetchPosts,likePost})(Dashboard);
