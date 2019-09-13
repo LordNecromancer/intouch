@@ -29,7 +29,16 @@ class Header extends Component{
                     <li><a href="/api/logout"> logout</a></li>,
                     <li>
 
-                        <Link to="/post/new" >
+                        <Link
+                            to={{
+                                pathname: "/post/new",
+                                state :{
+                                    postId: '',
+                                    title:'',
+                                    content:''
+                                }
+                            }}
+                        >
                         new post
 
                         </Link>

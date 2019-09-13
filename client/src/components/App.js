@@ -10,6 +10,7 @@ import NewPostForm from "./post/NewPostForm";
 import OtherUser from "./OtherUser";
 import SignUpForm from "./registering/SignUpForm";
 import LogInForm from "./registering/LogInForm";
+import verifyDelete from "./post/verifyDelete";
 
 class App extends Component{
     componentDidMount() {
@@ -27,6 +28,8 @@ class App extends Component{
                         <Route exact path="/post/new" component={NewPostForm}/>
                         <Route  path="/sign_up" component={SignUpForm}/>
                         <Route  path="/log_in" component={LogInForm}/>
+                        <Route exact path="/post/edit" component={NewPostForm}/>
+                        <Route exact path="/post/delete" component={verifyDelete}/>
 
 
                         <Route  path="/users/:name" component={OtherUser}/>

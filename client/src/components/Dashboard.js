@@ -1,8 +1,10 @@
 import React,{Component} from 'react';
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
-import {fetchPosts,likePost} from "../actions";
+import {fetchPosts,likePost,deletePost} from "../actions";
 import SearchBar from "./SearchBar";
+import ComposeComment from "./ComposeComment";
+import CommentSection from "./CommentSection";
 
 class Dashboard extends Component{
 
@@ -14,9 +16,9 @@ class Dashboard extends Component{
         return(
             <div className="push-s3">
             <SearchBar/>
+
                 <ul>
                     {this.props.posts.reverse().map((post) =>{
-                        console.log(post.id)
 
                         return(
                         <div className="row ">
@@ -29,17 +31,52 @@ class Dashboard extends Component{
                                         </p>
 
                                         <p>
-                                            likes : {post.counter}
+                                            likes : {post.likeCounter}
                                         </p>
                                     </div>
                                     <div className="card-action">
                                         <button onClick={()=>this.props.likePost(post._id)}>
                                             Like
                                         </button>
+
+
+
+                                        <Link
+                                            to={
+                                                {pathname : '/post/edit' ,
+                                                 state :{
+                                                    title : post.title,
+                                                     content:post.content,
+                                                     postId:post._id
+                                                 }
+                                            }}>
+                                            edit
+                                        </Link>
+
+
+                                        <Link className="right"
+                                            to={
+                                                {pathname : '/post/delete' ,
+                                                    state :{
+                                                        title : post.title,
+                                                        content:post.content,
+                                                        postId:post._id
+                                                    }
+                                                }}>
+                                            delete
+                                        </Link>
+
+                                        <ComposeComment postId={post._id}/>
+                                        <CommentSection comments={post.comments} postId={post._id}/>
+
                                     </div>
                                 </div>
+
+
                             </div>
+
                         </div>
+
                         )})}
                 </ul>
             </div>
@@ -54,4 +91,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps,{fetchPosts,likePost})(Dashboard);
+export default connect(mapStateToProps,{fetchPosts,likePost,deletePost})(Dashboard);

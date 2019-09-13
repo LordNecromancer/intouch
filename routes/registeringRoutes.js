@@ -40,11 +40,10 @@ module.exports = app => {
     app.post('/api/sign_up' , async (req,res) =>{
         const {username,password}= req.body;
 
-        const existingUser=await User.findOne({userName : username});
-        console.log(existingUser)
+        const existingUser=await User.findOne({username : username});
         if(!existingUser) {
             const user = await new User({
-                userName: username,
+                username: username,
                 password: password
             }).save();
             res.send(false);

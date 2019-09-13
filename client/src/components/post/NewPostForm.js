@@ -8,12 +8,20 @@ class NewPostForm extends Component{
 
 
 
+    componentDidMount() {
+
+        this.props.initialize(
+            {
+                title:this.props.location.state.title,
+                content:this.props.location.state.content
+            })
+    }
 
     renderContent(){
         return(
             <div>
-                <Field name="title" type="text" label="title" component={postFormField}/>
-                <Field name="content" type="text" label="content" component={postFormField}/>
+                <Field name="title" type="text"  label="title" component={postFormField}/>
+                <Field name="content" type="text" label="content"   component={postFormField}/>
 
             </div>
         )
@@ -24,7 +32,7 @@ class NewPostForm extends Component{
     return(
         <div>
 
-            <Form onSubmit={this.props.handleSubmit((values) => this.props.sendPost(values,this.props.history))}>
+            <Form onSubmit={this.props.handleSubmit((values) => this.props.sendPost(this.props.location.state.postId,values,this.props.history))}>
             {this.renderContent()}
 
            <Link to='/dashboard' className="red  btn-flat">
@@ -58,7 +66,9 @@ function validate(values) {
 
 export default connect(null,{sendPost})(reduxForm({
     validate,
-    form:'newPostForm'
+    form:'newPostForm',
+   // enableReinitialize:true
+
 
 
 })(withRouter(NewPostForm)));

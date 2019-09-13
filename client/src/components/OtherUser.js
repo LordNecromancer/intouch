@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import SearchBar from "./SearchBar";
 import {likePost,findUser} from "../actions";
 import {withRouter} from 'react-router-dom';
+import ComposeComment from "./ComposeComment";
+import CommentSection from "./CommentSection";
 
 class OtherUser extends Component{
 
@@ -13,7 +15,6 @@ class OtherUser extends Component{
 
 
     render() {
-        console.log(this.props.match);
         return(
             <div className="push-s3">
                 <SearchBar/>
@@ -31,13 +32,16 @@ class OtherUser extends Component{
                                             </p>
 
                                             <p>
-                                                likes : {post.counter}
+                                                likes : {post.likeCounter}
                                             </p>
                                         </div>
                                         <div className="card-action">
                                             <button onClick={()=>this.props.likePost(post._id)}>
                                                 Like
                                             </button>
+
+                                            <ComposeComment postId={post._id}/>
+                                            <CommentSection comments={post.comments} postId={post._id}/>
                                         </div>
                                     </div>
                                 </div>

@@ -9,9 +9,26 @@ export function fetchUser() {
      }
 }
 
-export function sendPost(values,history) {
+export function sendPost(postId,values,history) {
     return async (dispatch) => {
-        const res=await axios.post('/api/post',values);
+        const res=await axios.post('/api/post',{postId :postId,values});
+        history.push('/dashboard');
+        dispatch({type:FETCH_USER,payload:res.data} );
+    }
+}
+
+export function sendComment(values,postId,history) {
+    return async (dispatch) => {
+        const res=await axios.post('/api/post/comment',{postId :postId,comment:values});
+        console.log(res.data)
+       // history.push('/dashboard');
+        dispatch({type:FETCH_POSTS,payload:res.data} );
+    }
+}
+
+export function deletePost(postId,history) {
+    return async (dispatch) => {
+        const res=await axios.post('/api/post/delete',{postId :postId});
         history.push('/dashboard');
         dispatch({type:FETCH_USER,payload:res.data} );
     }
@@ -64,6 +81,14 @@ export function likePost(postId) {
     console.log(postId)
     return async (dispatch)=>{
         const res=await axios.post('/api/like',{postId :postId});
-       // dispatch({type:FETCH_POSTS,payload:res.data});
+        dispatch({type:FETCH_POSTS,payload:res.data});
+    }
+}
+
+export function getMoreComments(postId,num) {
+
+    return async (dispatch)=>{
+        const res=await axios.post('/api/comment',{postId :postId,num:num});
+        dispatch({type:FETCH_POSTS,payload:res.data});
     }
 }
