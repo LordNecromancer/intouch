@@ -34,7 +34,7 @@ class SignUpForm extends Component{
                         Back
                     </Link>
                     <button type="submit" className="right teal  btn-flat">
-                        Post
+                        Sign Up
                     </button>
                 </Form>
             </div>

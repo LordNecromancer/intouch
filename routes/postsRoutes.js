@@ -8,7 +8,7 @@ module.exports = app => {
         '/api/posts',
         async (req, res) => {
             if (req.user) {
-                const posts = await Post.find({_user: req.user.id},{comments:{$slice : [0,10]}});
+                const posts = await Post.find({_user: req.user.id},{comments:{$slice : [0,10]}}).populate('likes');
                 res.send(posts);
             }
         }
@@ -27,9 +27,10 @@ module.exports = app => {
                 }).save();
 
             }else{
-                Post.updateOne({_id:postId},{title:title,content:content}).exec();
+                await Post.updateOne({_id:postId},{title:title,content:content}).exec();
             }
-            res.send(req.user);
+            const posts=await Post.find({_user:req.user.id});
+            res.send(posts);
 
         }
     );
@@ -78,10 +79,18 @@ module.exports = app => {
 
                await Post.updateOne({_id:postId}, {$inc:{likeCounter :1}});
                 const post=await Post.findOne({_id:postId});
-                const posts=await Post.find({_user:post._user});
+                const posts=await Post.find({_user:post._user}).populate('likes');
 
               //  await Post.updateOne({likes : req.user.id},{$inc : {counter : 1}}).exec();
 
+                res.send(posts);
+            }else{
+
+                await Post.updateOne({_id:postId}, {$pull :{likes : req.user.id}});
+
+                await Post.updateOne({_id:postId}, {$inc:{likeCounter :-1}});
+                const post=await Post.findOne({_id:postId});
+                const posts=await Post.find({_user:post._user}).populate('likes');
                 res.send(posts);
             }
 

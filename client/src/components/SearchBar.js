@@ -12,7 +12,7 @@ class SearchBar extends Component{
             <div>
                 <input onChange={(event) => this.setState({term : event.target.value })}/>
                 <button onClick={() => this.props.findUser(this.state.term,this.props.history)}>
-                search profiles
+                    <i className="material-icons">search</i>
                 </button>
             </div>
         )

@@ -11,9 +11,9 @@ class composeComment extends Component  {
             <div>
 
             <span>
-                <input onChange={(event) => this.setState({term : event.target.value })}/>
+                <input className="input-field" onChange={(event) => this.setState({term : event.target.value })}/>
 
-                <button type='submit' onClick={() => this.props.sendComment(this.state.term, this.props.postId, this.props.history)}>
+                <button type='submit' className="btn-floating right" onClick={() => this.props.sendComment(this.state.term, this.props.postId, this.props.history)}>
                     send
                     </button>
             </span>

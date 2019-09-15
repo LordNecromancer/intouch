@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 import SearchBar from "./SearchBar";
-import {likePost,findUser} from "../actions";
+import {likePost,findUser,sendFriendRequest} from "../actions";
 import {withRouter} from 'react-router-dom';
 import ComposeComment from "./ComposeComment";
 import CommentSection from "./CommentSection";
@@ -17,6 +17,9 @@ class OtherUser extends Component{
     render() {
         return(
             <div className="push-s3">
+                <button onClick={()=> this.props.sendFriendRequest(this.props.match.params.name)}>
+                    <i className="material-icons">person_add</i>
+                </button>
                 <SearchBar/>
                 <ul>
                     {this.props.friendPosts.reverse().map((post) =>{
@@ -59,4 +62,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps,{likePost,findUser})(withRouter(OtherUser));
+export default connect(mapStateToProps,{likePost,findUser,sendFriendRequest})(withRouter(OtherUser));

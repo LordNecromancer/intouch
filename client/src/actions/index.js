@@ -13,7 +13,7 @@ export function sendPost(postId,values,history) {
     return async (dispatch) => {
         const res=await axios.post('/api/post',{postId :postId,values});
         history.push('/dashboard');
-        dispatch({type:FETCH_USER,payload:res.data} );
+        dispatch({type:FETCH_POSTS,payload:res.data} );
     }
 }
 
@@ -78,7 +78,6 @@ export function logIn(values,history) {
 
 export function likePost(postId) {
 
-    console.log(postId)
     return async (dispatch)=>{
         const res=await axios.post('/api/like',{postId :postId});
         dispatch({type:FETCH_POSTS,payload:res.data});
@@ -90,5 +89,21 @@ export function getMoreComments(postId,num) {
     return async (dispatch)=>{
         const res=await axios.post('/api/comment',{postId :postId,num:num});
         dispatch({type:FETCH_POSTS,payload:res.data});
+    }
+}
+
+export function sendFriendRequest(username) {
+
+    return async (dispatch)=>{
+        const res=await axios.post('/api/add_friend',{username:username});
+      //  dispatch({type:FETCH_POSTS,payload:res.data});
+    }
+}
+
+export function acceptFriendRequest(userId) {
+
+    return async (dispatch)=>{
+        const res=await axios.post('/api/accept',{userId:userId});
+          dispatch({type:FETCH_USER,payload:res.data});
     }
 }

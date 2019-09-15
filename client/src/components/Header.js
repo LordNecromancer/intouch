@@ -39,8 +39,22 @@ class Header extends Component{
                                 }
                             }}
                         >
-                        new post
 
+                            <i className="material-icons">create</i>
+
+                        </Link>
+
+                    </li>,
+
+                    <li>
+                        <Link to='/user/requests' className='collection-item'>
+                            <span className='new badge'>{this.props.auth.friendRequestsReceived.length}</span>
+                        </Link>
+                    </li>,
+
+                    <li>
+                        <Link to='/user/friends' >
+                            <span >friends</span>
                         </Link>
                     </li>
                 ];

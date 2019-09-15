@@ -33,7 +33,7 @@ class LogInForm extends Component{
                         Back
                     </Link>
                     <button type="submit" className="right teal  btn-flat">
-                        Post
+                        Log In
                     </button>
                 </Form>
             </div>

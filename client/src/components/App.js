@@ -5,12 +5,14 @@ import Header from "./Header";
 import {connect} from 'react-redux';
 import Landing from "./Landing";
 import Dashboard from "./Dashboard";
-import * as actions from '../actions';
+import {fetchUser} from '../actions';
 import NewPostForm from "./post/NewPostForm";
 import OtherUser from "./OtherUser";
 import SignUpForm from "./registering/SignUpForm";
 import LogInForm from "./registering/LogInForm";
 import verifyDelete from "./post/verifyDelete";
+import FriendRequests from "./FriendRequests";
+import Friends from "./Friends";
 
 class App extends Component{
     componentDidMount() {
@@ -30,6 +32,10 @@ class App extends Component{
                         <Route  path="/log_in" component={LogInForm}/>
                         <Route exact path="/post/edit" component={NewPostForm}/>
                         <Route exact path="/post/delete" component={verifyDelete}/>
+                        <Route exact path="/user/requests" component={FriendRequests}/>
+                        <Route exact path="/user/friends" component={Friends}/>
+
+
 
 
                         <Route  path="/users/:name" component={OtherUser}/>
@@ -45,4 +51,4 @@ class App extends Component{
 
 }
 
-export default connect(null,actions)(App);
+export default connect(null,{fetchUser})(App);
