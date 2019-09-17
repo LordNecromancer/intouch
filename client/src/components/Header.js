@@ -1,11 +1,13 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from "react-router-dom";
+import ReactToolTip from 'react-tooltip';
 
 
 class Header extends Component{
 
     renderContent() {
+
 
         switch (this.props.auth) {
 
@@ -26,10 +28,13 @@ class Header extends Component{
 
             default :
                 return [
-                    <li><a href="/api/logout"> logout</a></li>,
+                    <li>        <ReactToolTip/>                    </li>,
+
+                    <li>   <a   data-tip="log out" href="/api/logout"> logout</a>
+                    </li>,
                     <li>
 
-                        <Link
+                        <Link  data-tip="create new post"
                             to={{
                                 pathname: "/post/new",
                                 state :{
@@ -47,13 +52,13 @@ class Header extends Component{
                     </li>,
 
                     <li>
-                        <Link to='/user/requests' className='collection-item'>
+                        <Link  data-tip="friend requests" to='/user/requests' className='collection-item'>
                             <span className='new badge'>{this.props.auth.friendRequestsReceived.length}</span>
                         </Link>
                     </li>,
 
                     <li>
-                        <Link to='/user/friends' >
+                        <Link  data-tip="friends"  to='/user/friends' >
                             <span >friends</span>
                         </Link>
                     </li>
@@ -65,7 +70,7 @@ class Header extends Component{
         return(
             <nav>
             <div className="nav-wrapper">
-                <Link to={this.props.auth ? '/dashboard' : '/'}  className="brand-logo">
+                <Link to={this.props.auth ? '/dashboard' : '/'}  className=" brand-logo">
                     Intouch
                 </Link>
                 <ul className="right">

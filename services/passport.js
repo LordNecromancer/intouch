@@ -27,7 +27,7 @@ passport.use(new googleStrategy({
 
         try{
 
-            const existingUser= await User.findOne({googleId: profile.id}).populate('friendRequestsReceived').populate('friends').populate('friendRequestsReceived').populate('friendRequestsSent');
+            const existingUser= await User.findOne({googleId: profile.id}).populate('friendRequestsReceived','username').populate('friends','username').populate('friendRequestsSent','username');
 
             if(existingUser){
 
@@ -49,7 +49,7 @@ passport.use(new googleStrategy({
 
 passport.use(new localStrategy(
     async (username,password,done) =>{
-        const user=await User.findOne({username : username ,password :password}).populate('friendRequestsReceived ').populate('friends').populate('friendRequestsSent');
+        const user=await User.findOne({username : username ,password :password}).select({password:false}).populate('friendRequestsReceived ','username').populate('friends','username').populate('friendRequestsSent','username');
         if(user){
 
             return done(null,user);

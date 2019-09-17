@@ -13,17 +13,23 @@ import LogInForm from "./registering/LogInForm";
 import verifyDelete from "./post/verifyDelete";
 import FriendRequests from "./FriendRequests";
 import Friends from "./Friends";
+import ReactDom from 'react-dom';
 
 class App extends Component{
     componentDidMount() {
         this.props.fetchUser();
+
+
     }
 
     render() {
         return(
-            <div className="container">
+            <div className="container ">
+
                 <BrowserRouter>
                     <div>
+
+
                         <Header/>
                         <Route exact path="/" component={Landing}/>
                         <Route exact path="/dashboard" component={Dashboard}/>

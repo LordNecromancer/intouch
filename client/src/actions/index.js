@@ -96,7 +96,7 @@ export function sendFriendRequest(username) {
 
     return async (dispatch)=>{
         const res=await axios.post('/api/add_friend',{username:username});
-      //  dispatch({type:FETCH_POSTS,payload:res.data});
+        dispatch({type:FETCH_USER,payload:res.data});
     }
 }
 

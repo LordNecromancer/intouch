@@ -4,6 +4,7 @@ export default function postReducer(state=[],actions){
 
     switch (actions.type) {
 
+
         case FETCH_POSTS :
 
             return actions.payload;

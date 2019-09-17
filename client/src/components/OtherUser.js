@@ -6,20 +6,77 @@ import {likePost,findUser,sendFriendRequest} from "../actions";
 import {withRouter} from 'react-router-dom';
 import ComposeComment from "./ComposeComment";
 import CommentSection from "./CommentSection";
+import ReactToolTip from 'react-tooltip';
+import MyModali from "./modali";
+import Modal from "./Modal";
 
 class OtherUser extends Component{
 
+   // state={showModal : false};
     componentDidMount() {
         this.props.findUser(this.props.match.params.name,this.props.history);
     }
 
 
+    setFriendIcon(){
+        if(this.props.current_user) {
+            if (this.props.current_user.friends.filter(e => e.username === this.props.match.params.name).length > 0) {
+                return <i  className="material-icons">highlight_off</i>
+
+            }else if(this.props.current_user.friendRequestsSent.filter(e => e.username === this.props.match.params.name).length > 0) {
+
+                return <i className="material-icons">error</i>
+            }else{
+                return <i className="material-icons">person_add</i>
+
+            }
+        }
+        return <p>Login to add as friend</p>
+
+    }
+
+    setFriendToolTip(){
+
+        if(this.props.current_user) {
+            if(this.props.current_user.friends.filter(e => e.username === this.props.match.params.name).length > 0)
+                return "remove friend" ;
+            else if(this.props.current_user.friendRequestsSent.filter(e => e.username === this.props.match.params.name).length > 0)
+            return "request pending";
+            else{
+                return "add friend";
+
+            }
+        }
+        return 'not logged in';
+    }
+    handleFriendButton(){
+        if(this.props.current_user) {
+            if(this.props.current_user.friends.filter(e => e.username === this.props.match.params.name).length > 0)
+                return <MyModali name={this.props.match.params.name}/> ;
+
+            else{
+                return(
+                <button data-for='friendOption' data-tip={this.setFriendToolTip()} onClick={()=> this.props.sendFriendRequest(this.props.match.params.name)}>
+                    {this.setFriendIcon()}
+                    <ReactToolTip id='friendOption'/>
+
+                </button>
+                )
+            }
+        }
+        return 'not logged in';
+
+    }
     render() {
         return(
+
+
             <div className="push-s3">
-                <button onClick={()=> this.props.sendFriendRequest(this.props.match.params.name)}>
-                    <i className="material-icons">person_add</i>
-                </button>
+
+                {this.handleFriendButton()}
+
+
+
                 <SearchBar/>
                 <ul>
                     {this.props.friendPosts.reverse().map((post) =>{
@@ -58,7 +115,8 @@ class OtherUser extends Component{
 
 function mapStateToProps(state) {
     return {
-        friendPosts:state.find
+        friendPosts:state.find,
+        current_user:state.auth
     }
 }
 

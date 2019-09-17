@@ -6,14 +6,20 @@ import {withRouter} from 'react-router-dom';
 class composeComment extends Component  {
 
     state={term : ''};
+
+
+    submitHandle= () => {
+        this.props.sendComment(this.state.term, this.props.postId, this.props.history);
+        this.setState({term:''});
+    };
     render() {
         return (
             <div>
 
             <span>
-                <input className="input-field" onChange={(event) => this.setState({term : event.target.value })}/>
+                <input value={this.state.term} className="input-field" onChange={(event) => this.setState({term : event.target.value })}/>
 
-                <button type='submit' className="btn-floating right" onClick={() => this.props.sendComment(this.state.term, this.props.postId, this.props.history)}>
+                <button type='submit' className="btn-floating right" onClick={this.submitHandle}>
                     send
                     </button>
             </span>
