@@ -2,6 +2,7 @@ const mongoose=require('mongoose');
 const User=mongoose.model('users');
 const Post=mongoose.model('posts');
 const Chat=mongoose.model('chats');
+const requireLogin= require('../middleware/requireLogin');
 
 module.exports = app =>{
 
@@ -30,7 +31,7 @@ module.exports = app =>{
 
 
 
-    app.get('/api/message/:name', async (req,res)=>{
+    app.get('/api/message/:name',requireLogin, async (req,res)=>{
         let name=req.params.name;
 
         const user= await User.findOne({username : name});
@@ -41,7 +42,7 @@ module.exports = app =>{
         res.send(chat);
     });
 
-    app.post('/api/message/:name', async (req,res)=>{
+    app.post('/api/message/:name',requireLogin, async (req,res)=>{
         let name=req.params.name;
         const {message}=req.body;
 
@@ -65,7 +66,7 @@ module.exports = app =>{
     });
 
 
-    app.post('/api/add_friend', async (req,res)=>{
+    app.post('/api/add_friend',requireLogin, async (req,res)=>{
 
         const{username}=req.body;
 
@@ -109,7 +110,7 @@ module.exports = app =>{
 });
 
 
-    app.post('/api/accept', async (req,res)=>{
+    app.post('/api/accept',requireLogin, async (req,res)=>{
 
         const{userId}=req.body;
 

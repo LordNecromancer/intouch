@@ -1,20 +1,21 @@
 const mongoose=require('mongoose');
 const User=mongoose.model('users');
 const Post=mongoose.model('posts');
+const requireLogin= require('../middleware/requireLogin');
+
 
 
 module.exports = app => {
     app.get(
-        '/api/posts',
+        '/api/posts',requireLogin,
         async (req, res) => {
-            if (req.user) {
                 const posts = await Post.find({_user: req.user.id},{comments:{$slice : [0,10]}}).populate('likes');
                 res.send(posts);
-            }
+
         }
     );
     app.post(
-        '/api/post',
+        '/api/post',requireLogin,
         async (req, res) => {
             const {title,content} = req.body.values;
             const{ postId}=req.body;
@@ -36,7 +37,7 @@ module.exports = app => {
     );
 
     app.post(
-        '/api/post/delete',
+        '/api/post/delete',requireLogin,
         async (req, res) => {
             const{ postId}=req.body;
 
@@ -50,7 +51,7 @@ module.exports = app => {
     );
 
     app.post(
-        '/api/comment',
+        '/api/comment',requireLogin,
         async (req, res) => {
             const{ postId,num}=req.body;
 
@@ -65,7 +66,7 @@ module.exports = app => {
 
 
     app.post(
-        '/api/like',
+        '/api/like',requireLogin,
         async (req, res) => {
             const {postId} = req.body;
 
@@ -99,7 +100,7 @@ module.exports = app => {
 
 
     app.post(
-        '/api/post/comment',
+        '/api/post/comment',requireLogin,
         async (req, res) => {
             const {postId,comment} = req.body;
 
