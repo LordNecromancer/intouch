@@ -1,7 +1,7 @@
 import {CATCH_ERROR} from "../actions/types";
 import { SubmissionError } from 'redux-form';
 
-export default function authReducer(state=false,action) {
+export default function errorReducer(state=false,action) {
 
     switch (action.type) {
 
@@ -11,7 +11,7 @@ export default function authReducer(state=false,action) {
 
             if(action.payload){
                 throw new SubmissionError({
-                    username : "lool"
+                    username : "username already exists"
                 });
                 return action.payload
             } else{

@@ -23,14 +23,13 @@ class SignUpForm extends Component{
 
     render() {
 
-        console.log("props           "+this.props.serverError)
         return(
             <div>
 
                 <Form onSubmit={this.props.handleSubmit((values) => this.props.signUp(values,this.props.history))}>
                     {this.renderContent()}
 
-                    <Link to='/dashboard' className="red  btn-flat">
+                    <Link to='/' className="red  btn-flat">
                         Back
                     </Link>
                     <button type="submit" className="right teal  btn-flat">

@@ -8,6 +8,7 @@ import {createStore,applyMiddleware} from "redux";
 import * as serviceWorker from './serviceWorker';
 import reducers from './reducers';
 import reduxThunk from 'redux-thunk';
+import './index.css'
 
 const store=createStore(reducers,{},applyMiddleware(reduxThunk));
 ReactDOM.render(

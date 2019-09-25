@@ -1,10 +1,11 @@
 import React,{Component} from 'react';
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
-import {fetchPosts,likePost,deletePost} from "../actions";
+import {fetchPosts,likePost,deletePost,uploadImage} from "../actions";
 import SearchBar from "./SearchBar";
 import ComposeComment from "./ComposeComment";
 import CommentSection from "./CommentSection";
+import UploadImage from "./UploadImage";
 
 class Dashboard extends Component{
 
@@ -13,18 +14,34 @@ class Dashboard extends Component{
        this.props.fetchPosts();
     }
 
+    handleNoPosts = () =>{
+      if(this.props.posts.length<1){
+
+          return(<div className='center-align'>
+                  <h4 >No Posts Yet</h4>
+                  <p>create posts to share moments with friends</p>
+          </div>
+          );
+      }
+    };
+
     render() {
         if(this.props.current_user){
         return(
+
+
             <div className="push-s3">
             <SearchBar/>
 
+        <UploadImage/>
+
+
+                {this.handleNoPosts()}
 
 
                 <ul>
                     {this.props.posts.reverse().map((post) =>{
 
-                        {console.log(post.likes.filter(e => e.username === this.props.current_user.username ).length>0)}
                         return(
                         <div className="row ">
                             <div className="col s12 m6 push-m3 ">
@@ -105,4 +122,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps,{fetchPosts,likePost,deletePost})(Dashboard);
+export default connect(mapStateToProps,{fetchPosts,likePost,deletePost,uploadImage})(Dashboard);

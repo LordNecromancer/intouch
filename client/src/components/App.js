@@ -13,11 +13,16 @@ import LogInForm from "./registering/LogInForm";
 import verifyDelete from "./post/verifyDelete";
 import FriendRequests from "./FriendRequests";
 import Friends from "./Friends";
+import Chat from "./Chat";
 import ReactDom from 'react-dom';
-
+import socketIOClient from 'socket.io-client';
+ export const socket= socketIOClient('http://localhost:5000/');
 class App extends Component{
+
+
     componentDidMount() {
         this.props.fetchUser();
+
 
 
     }
@@ -44,7 +49,9 @@ class App extends Component{
 
 
 
-                        <Route  path="/users/:name" component={OtherUser}/>
+                        <Route  exact path="/users/:name" component={OtherUser}/>
+                        <Route  exact path="/users/message/:name" component={Chat}/>
+
 
 
 

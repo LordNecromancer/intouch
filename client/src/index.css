@@ -40,6 +40,13 @@ p.lorem-text {
   cursor: pointer;
   transition: background 0.15s ease-out;
 }
+
+#footer{
+  position: fixed;
+  left:0;
+  bottom: 0;
+  background-color: teal;
+}
 .modal-button:hover {
   background: rgb(60, 77, 80);
   color: white;

@@ -14,6 +14,9 @@ module.exports = function(app) {
     app.use(proxy('/api/post/*',
         { target: 'http://localhost:5000/' }
     ));
+    app.use(proxy('/api/message/*',
+        { target: 'http://localhost:5000/' }
+    ));
 
     app.use(proxy('/googleoauth/*',
         { target: 'http://localhost:5000/' }

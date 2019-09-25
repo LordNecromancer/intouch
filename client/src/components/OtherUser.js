@@ -75,6 +75,11 @@ class OtherUser extends Component{
 
                 {this.handleFriendButton()}
 
+                <Link to={'/users/message/'+this.props.match.params.name}>
+
+                    message
+                </Link>
+
 
 
                 <SearchBar/>

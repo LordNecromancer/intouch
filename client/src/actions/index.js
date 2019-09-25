@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {FETCH_USER, FETCH_POSTS, FIND_USER, SIGN_UP, CATCH_ERROR} from "./types";
+import {FETCH_USER, FETCH_POSTS, FIND_USER, SIGN_UP, CATCH_ERROR, FETCH_CHATS} from "./types";
+import {socket} from "../components/App";
 
 export function fetchUser() {
 
@@ -59,7 +60,7 @@ export function signUp(values,history) {
 
             const res = await axios.post('/api/sign_up', values);
             if(!res.data)
-                history.push('/dashboard');
+                history.push('/');
             dispatch({type: CATCH_ERROR, payload: res.data});
         }
 
@@ -105,5 +106,39 @@ export function acceptFriendRequest(userId) {
     return async (dispatch)=>{
         const res=await axios.post('/api/accept',{userId:userId});
           dispatch({type:FETCH_USER,payload:res.data});
+    }
+}
+
+export function fetchChats(myId,name) {
+    return async (dispatch)=>{
+        //const res=await axios.get('/api/message/'+name);
+        socket.emit('initial_data', {myId: myId, name: name})
+        socket.on('initial_data',(chat)=>{
+            dispatch({type:FETCH_CHATS,payload:chat});
+
+        })
+    }
+
+}
+
+export function sendMessage(myId,name,message) {
+
+    return async (dispatch)=>{
+
+        socket.emit('send_message', {myId: myId, name: name,message:message})
+        socket.on('updated_chat',(chat)=>{
+            dispatch({type:FETCH_CHATS,payload:chat});
+
+        })
+        //const res=await axios.post('/api/message/'+name,{message:message});
+    }
+
+}
+
+export function uploadImage(file){
+    console.log(file)
+    return async (dispatch)=> {
+        const res = await axios.post('/api/upload', file);
+        dispatch({type: FETCH_USER, payload: res.data});
     }
 }

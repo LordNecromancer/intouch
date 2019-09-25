@@ -4,6 +4,7 @@ import {reducer as formReducer} from "redux-form";
 import postReducer from "./postReducer";
 import findUserReducer from "./findUserReducer";
 import errorReducer from "./errorReducer";
+import chatReducer from "./chatReducer";
 
 
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
    form:formReducer,
    posts:postReducer,
    find:findUserReducer,
-   error:errorReducer
+   error:errorReducer,
+   chats:chatReducer
 });

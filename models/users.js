@@ -7,9 +7,11 @@ const userSchema=new Schema({
     name : String,
     username:String,
     password:String,
+    chats:[{type:Schema.Types.ObjectId ,ref:'chats'}],
     friendRequestsReceived:[{type:Schema.Types.ObjectId ,ref:'users'}],
     friends:[{type:Schema.Types.ObjectId ,ref:'users'}],
-    friendRequestsSent: [String]
+    friendRequestsSent: [String],
+    image :{imageName :String,imageData:String}
 });
 
 mongoose.model('users',userSchema);

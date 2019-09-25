@@ -61,7 +61,15 @@ class Header extends Component{
                         <Link  data-tip="friends"  to='/user/friends' >
                             <span >friends</span>
                         </Link>
+                    </li>,
+                    <li>
+                        <div className='left'>
+                            {this.props.auth.username}
+                            <img style={{width:'50px',height:'50px'}}className='circle responsive-img' src={this.props.auth.image ?  'http://localhost:5000/'+this.props.auth.image.imageName: ''}/>
+                        </div>
                     </li>
+
+
                 ];
 
         }
@@ -78,6 +86,7 @@ class Header extends Component{
 
 
                 </ul>
+
 
             </div>
             </nav>
