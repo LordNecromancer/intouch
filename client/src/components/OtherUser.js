@@ -7,7 +7,7 @@ import {withRouter} from 'react-router-dom';
 import ComposeComment from "./ComposeComment";
 import CommentSection from "./CommentSection";
 import ReactToolTip from 'react-tooltip';
-import MyModali from "./modali";
+import MyModali from "./general/modali";
 import Modal from "./Modal";
 
 class OtherUser extends Component{
@@ -97,7 +97,7 @@ class OtherUser extends Component{
                                             </p>
 
                                             <p>
-                                                likes : {post.likeCounter}
+                                                likes : {post.likes.length}
                                             </p>
                                         </div>
                                         <div className="card-action">
@@ -120,7 +120,7 @@ class OtherUser extends Component{
 
 function mapStateToProps(state) {
     return {
-        friendPosts:state.find,
+        friendPosts:Object.values(state.find),
         current_user:state.auth
     }
 }

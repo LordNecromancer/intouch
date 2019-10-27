@@ -2,9 +2,29 @@ import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from "react-router-dom";
 import ReactToolTip from 'react-tooltip';
+//import DropDown from "./general/DropDown";
+//import {Dropdown} from "semantic-ui-react";
+import {Dropdown,Button} from "semantic-ui-react";
 
+const dropDownOptions=[
+    {
+        key:'logout',
+        text:'logout',
+        value:'logout',
+        as:'a',
+        href:'/api/logout'
 
+    },{
+    key:'add',
+        text:'setting',
+        value:'setting',
+        as:Link,
+        to:'/settings'
+    }
+]
 class Header extends Component{
+
+
 
     renderContent() {
 
@@ -15,12 +35,12 @@ class Header extends Component{
                 return;
             case false :
                 return [
-                    <li><a href="/login/google/oauth"> login with google </a></li>,
-                    <li><Link to='/sign_up' >
+                    <li key='1'><a href="/login/google/oauth"> login with google </a></li>,
+                    <li key='2'><Link to='/sign_up' >
                         Sign Up
                     </Link>
                     </li>,
-                    <li><Link to='/log_in'>login</Link></li>
+                    <li key='3'><Link to='/log_in'>login</Link></li>
 
 
 
@@ -28,11 +48,11 @@ class Header extends Component{
 
             default :
                 return [
-                    <li>        <ReactToolTip/>                    </li>,
+                    <li key='4'>        <ReactToolTip/>                    </li>,
 
-                    <li>   <a   data-tip="log out" href="/api/logout"> logout</a>
-                    </li>,
-                    <li>
+
+
+                    <li key='5'>
 
                         <Link  data-tip="create new post"
                             to={{
@@ -51,21 +71,36 @@ class Header extends Component{
 
                     </li>,
 
-                    <li>
+                    <li key='6'>
                         <Link  data-tip="friend requests" to='/user/requests' className='collection-item'>
+                            friend requests
                             <span className='new badge'>{this.props.auth.friendRequestsReceived.length}</span>
                         </Link>
                     </li>,
 
-                    <li>
+                    <li key='7'>
                         <Link  data-tip="friends"  to='/user/friends' >
                             <span >friends</span>
                         </Link>
                     </li>,
-                    <li>
+                    <li key='8'>
+                        <Link  data-tip="messages"  to='/messages' >
+                            messages
+                        </Link>
+                    </li>,
+
+                        /*<DropDown style ={{zIndex:10}} main={{title:'settings'}} list={[{title:'logout',aLink:'/api/logout'},{title:'add friend',link:'/'}]}>*/
+                    <li key='9'>
                         <div className='left'>
+                            <Button.Group>
+                                <Button>
+                            <img style={{width:'50px',height:'50px'}} className='circle responsive-img' src={this.props.auth.imageName ?  'http://localhost:5000/'+this.props.auth.imageName: ''}/>
                             {this.props.auth.username}
-                            <img style={{width:'50px',height:'50px'}}className='circle responsive-img' src={this.props.auth.image ?  'http://localhost:5000/'+this.props.auth.image.imageName: ''}/>
+                                </Button>
+
+                                <Dropdown className='button icon' floating  trigger={<React.Fragment />} options={dropDownOptions}/>
+
+                            </Button.Group>
                         </div>
                     </li>
 
@@ -78,7 +113,7 @@ class Header extends Component{
         return(
             <nav>
             <div className="nav-wrapper">
-                <Link to={this.props.auth ? '/dashboard' : '/'}  className=" brand-logo">
+                <Link to={this.props.auth ? '/dashboard' : '/'}  className=" left brand-logo">
                     Intouch
                 </Link>
                 <ul className="right">

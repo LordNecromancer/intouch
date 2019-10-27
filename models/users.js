@@ -7,11 +7,12 @@ const userSchema=new Schema({
     name : String,
     username:String,
     password:String,
+    isActive:{type:Boolean ,default:false},
     chats:[{type:Schema.Types.ObjectId ,ref:'chats'}],
     friendRequestsReceived:[{type:Schema.Types.ObjectId ,ref:'users'}],
     friends:[{type:Schema.Types.ObjectId ,ref:'users'}],
     friendRequestsSent: [String],
-    image :{imageName :String,imageData:String}
+    imageName :{type :String ,default:'default.jpg'}
 });
 
 mongoose.model('users',userSchema);

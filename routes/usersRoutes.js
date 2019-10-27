@@ -29,6 +29,20 @@ module.exports = app =>{
         }
     });
 
+    app.get('/api/messages', async (req,res)=>{
+
+
+            const user = await User.findOne({_id: req.user.id}).populate({
+                path:'chats',
+                select:{messages:false},
+                populate:{
+                    path:'_users',
+                    select:'username'
+                }
+            });
+            res.send(user);
+    });
+
 
 
     app.get('/api/message/:name',requireLogin, async (req,res)=>{
@@ -37,7 +51,7 @@ module.exports = app =>{
         const user= await User.findOne({username : name});
         const chat=await Chat.findOne({
             _users:{$all:[user._id,req.user.id]}
-        }).populate('messages._sender','username');
+        }).populate({path:'messages',populate :{path:'_sender',select :'username'}});
 
         res.send(chat);
     });

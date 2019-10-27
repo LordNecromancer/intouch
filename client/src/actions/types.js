@@ -5,3 +5,5 @@ export const FIND_USER='find_user';
 export const SIGN_UP='sign_up';
 export const CATCH_ERROR="catch_error";
 export const FETCH_CHATS= "fetch_chats";
+export const FETCH_MESSAGES="fetch_messages";
+export const FETCH_POST="fetch_post";

@@ -82,6 +82,7 @@ class Chat extends Component{
 
 function mapStateToProps(state) {
 
+    console.log(state.chats)
     return {
         chats: state.chats,
         current_user:state.auth

@@ -27,7 +27,8 @@ class UploadImage extends Component{
                 <div className=' col offset-m2 m3 offset-s2 s8 darken-2 grey z-depth-3 card-panel' style={{marginTop:'40px'}}>
                     <label className='label  white-text' htmlFor='upload'> upload image</label>
 
-                    <input  name='imageData' type='file' className='input-field lighten-1' id='upload' onChange={(event) => this.setState({file : event.target.files[0] ,fileURL:URL.createObjectURL(event.target.files[0])})}/>
+
+                    <input  name='imageData' type='file' className='input-field lighten-1' id='upload' style={{width:'200px'}}onChange={(event) => this.setState({file : event.target.files[0] ,fileURL:URL.createObjectURL(event.target.files[0])})}/>
                     <img style={{width:'100px',height:'100px'}} src={this.state.fileURL}/>
                     <button className='right btn-flat teal ' onClick={this.handleSubmit}>
                         <i className="material-icons">search</i>

@@ -49,6 +49,10 @@ socket.on('connection',(socket) =>{
                 _users:[myId,user._id],
                 messages:[{_sender:myId,message:message}]
             }).save();
+
+            await User.updateOne({_id:myId},{$push:{chats:newChat}});
+            await User.updateOne({_id:user._id},{$push:{chats:newChat}});
+
             newChat=newChat.populate('messages._sender','username');
             socket.emit('updated_chat',newChat);
         }
@@ -118,8 +122,7 @@ try {
 }
 
 app.post('/api/upload',upload.single('imageData'),async (req,res) =>{
-    console.log(req.file)
-    await User.updateOne({_id:req.user.id},{image :{imageName:req.file.filename,imageData :req.file.path}});
+    await User.updateOne({_id:req.user.id},{imageName:req.file.filename});
     const user=await User.findOne({_id:req.user.id});
     res.send(user);
 })

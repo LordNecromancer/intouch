@@ -33,7 +33,6 @@ class Dashboard extends Component{
             <div className="push-s3">
             <SearchBar/>
 
-        <UploadImage/>
 
 
                 {this.handleNoPosts()}
@@ -57,7 +56,7 @@ class Dashboard extends Component{
                                         </p>
 
                                         <p>
-                                            likes : {post.likeCounter}
+                                            likes : {post.likes.length}
                                         </p>
                                     </div>
                                     <div className="card-action">
@@ -106,7 +105,7 @@ class Dashboard extends Component{
             </div>
         )};
 
-        return <div> Loading !!!</div>
+        return <div> You must log in to view this page !!!</div>
     }
 
 
@@ -115,8 +114,9 @@ class Dashboard extends Component{
 
 
 function mapStateToProps(state) {
+    console.log(state.posts)
     return {
-        posts:state.posts,
+        posts:Object.values(state.posts),
         current_user:state.auth
 
     }

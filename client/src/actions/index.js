@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {FETCH_USER, FETCH_POSTS, FIND_USER, SIGN_UP, CATCH_ERROR, FETCH_CHATS} from "./types";
+import {FETCH_USER, FETCH_POSTS, FIND_USER, SIGN_UP, CATCH_ERROR, FETCH_CHATS,FETCH_MESSAGES,FETCH_POST} from "./types";
 import {socket} from "../components/App";
 
 export function fetchUser() {
@@ -81,7 +81,7 @@ export function likePost(postId) {
 
     return async (dispatch)=>{
         const res=await axios.post('/api/like',{postId :postId});
-        dispatch({type:FETCH_POSTS,payload:res.data});
+        dispatch({type:FETCH_POST,payload:res.data});
     }
 }
 
@@ -107,6 +107,15 @@ export function acceptFriendRequest(userId) {
         const res=await axios.post('/api/accept',{userId:userId});
           dispatch({type:FETCH_USER,payload:res.data});
     }
+}
+
+export function fetchMessageList() {
+    return async (dispatch)=>{
+        //const res=await axios.get('/api/message/'+name);
+        const res=await axios.get('/api/messages');
+        dispatch({type:FETCH_USER,payload:res.data});
+    }
+
 }
 
 export function fetchChats(myId,name) {
@@ -136,7 +145,6 @@ export function sendMessage(myId,name,message) {
 }
 
 export function uploadImage(file){
-    console.log(file)
     return async (dispatch)=> {
         const res = await axios.post('/api/upload', file);
         dispatch({type: FETCH_USER, payload: res.data});

@@ -9,7 +9,7 @@ module.exports = app => {
     app.get(
         '/api/posts',requireLogin,
         async (req, res) => {
-                const posts = await Post.find({_user: req.user.id},{comments:{$slice : [0,10]}}).populate('likes');
+                const posts = await Post.find({_user: req.user.id},{comments:{$slice : [0,10]}}).populate('likes').populate({path:'comments._user',model:'users',select:'imageName'});
                 res.send(posts);
 
         }
@@ -56,7 +56,7 @@ module.exports = app => {
             const{ postId,num}=req.body;
 
 
-            const posts = await Post.find({_id:postId},{comments:{$slice :[num*10,10]}});
+            const posts = await Post.find({_id:postId},{comments:{$slice :[num*10,10]}}).populate({path:'comments._user',model:'users',select:'imageName'});
 
 
             res.send(posts);
@@ -76,23 +76,23 @@ module.exports = app => {
 
             if(!alreadyLiked){
               // const post= await Post.findOne({_id:postId});
-              await Post.updateOne({_id:postId}, {$push :{likes : req.user.id}});
+              await Post.updateOne({_id:postId}, {$addToSet :{likes : req.user.id}});
 
-               await Post.updateOne({_id:postId}, {$inc:{likeCounter :1}});
-                const post=await Post.findOne({_id:postId});
-                const posts=await Post.find({_user:post._user}).populate('likes');
+              // await Post.updateOne({_id:postId}, {$inc:{likeCounter :1}});
+                const post=await Post.findOne({_id:postId}).populate('likes');
+               // const posts=await Post.find({_user:post._user}).populate('likes');
 
               //  await Post.updateOne({likes : req.user.id},{$inc : {counter : 1}}).exec();
 
-                res.send(posts);
+                res.send(post);
             }else{
 
                 await Post.updateOne({_id:postId}, {$pull :{likes : req.user.id}});
 
-                await Post.updateOne({_id:postId}, {$inc:{likeCounter :-1}});
-                const post=await Post.findOne({_id:postId});
-                const posts=await Post.find({_user:post._user}).populate('likes');
-                res.send(posts);
+               // await Post.updateOne({_id:postId}, {$inc:{likeCounter :-1}});
+                const post=await Post.findOne({_id:postId}).populate('likes');
+                //const posts=await Post.find({_user:post._user}).populate('likes');
+                res.send(post);
             }
 
         }
@@ -109,13 +109,14 @@ module.exports = app => {
 
 
 
+            const user=await User.findOne({_id:req.user.id});
                 // const post= await Post.findOne({_id:postId});
                 await Post.updateOne({_id:postId}, {$push :{comments : {comment:comment , _user:req.user.id,name:req.user.username}}});
 
                 await Post.updateOne({_id:postId}, {$inc:{commentCounter :1}}).exec();
 
                 const post=await Post.findOne({_id:postId});
-                const posts=await Post.find({_user:post._user},{comments:{$slice :[0,10]}});
+                const posts=await Post.find({_user:post._user},{comments:{$slice :[0,10]}}).populate({path:'comments._user',model:'users',select:'imageName'});
                 //  await Post.updateOne({likes : req.user.id},{$inc : {counter : 1}}).exec();
 
                 res.send(posts);

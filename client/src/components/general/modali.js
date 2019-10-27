@@ -1,7 +1,7 @@
 import React from 'react';
 import Modali,{useModali} from 'modali';
 import {connect} from 'react-redux';
-import {sendFriendRequest} from "../actions";
+import {sendFriendRequest} from "../../actions";
 import ReactToolTip from 'react-tooltip';
 
 const MyModali = (props) =>{
