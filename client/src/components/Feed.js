@@ -1,25 +1,25 @@
 import React,{Component} from 'react';
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
-import {fetchPosts,likePost,deletePost,uploadImage} from "../actions";
+import {fetchFeed,likePost} from "../actions";
 import SearchBar from "./SearchBar";
 import ComposeComment from "./ComposeComment";
 import CommentSection from "./CommentSection";
 import UploadImage from "./UploadImage";
 import handleMeta from "./general/handleMeta";
 
-class Dashboard extends Component{
+class Feed extends Component{
 
     componentDidMount() {
 
-       this.props.fetchPosts();
+       this.props.fetchFeed();
     }
 
     handleNoPosts = () =>{
       if(this.props.posts.length<1){
 
           return(<div className='center-align'>
-                  <h4 >No Posts Yet</h4>
+                  <h4 >No News</h4>
                   <p>create posts to share moments with friends</p>
           </div>
           );
@@ -32,7 +32,7 @@ class Dashboard extends Component{
         return(
 
 
-            <div >
+            <div className="">
             <SearchBar/>
 
 
@@ -47,32 +47,7 @@ class Dashboard extends Component{
 
                                 <div className="ui card centered " style={{padding:'20px',backgroundColor:'#FF9800',width:'85vh', wordWrap:'break-word'} }>
                                     <div className="content " >
-                                        <div>
-                                            <Link
-                                                to={
-                                                    {pathname : '/post/edit' ,
-                                                        state :{
-                                                            title : post.title,
-                                                            content:post.content,
-                                                            postId:post._id
-                                                        }
-                                                    }}>
-                                                edit
-                                            </Link>
 
-
-                                            <Link className="right"
-                                                  to={
-                                                      {pathname : '/post/delete' ,
-                                                          state :{
-                                                              title : post.title,
-                                                              content:post.content,
-                                                              postId:post._id
-                                                          }
-                                                      }}>
-                                                delete
-                                            </Link>
-                                        </div>
                                         <div className='meta'>
                                             {handleMeta(post)}
                                         </div>
@@ -136,10 +111,10 @@ class Dashboard extends Component{
 
 function mapStateToProps(state) {
     return {
-        posts:Object.values(state.posts),
+        posts:Object.values(state.feed),
         current_user:state.auth
 
     }
 }
 
-export default connect(mapStateToProps,{fetchPosts,likePost,deletePost,uploadImage})(Dashboard);
+export default connect(mapStateToProps,{fetchFeed,likePost})(Feed);

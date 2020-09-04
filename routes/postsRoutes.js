@@ -9,7 +9,7 @@ module.exports = app => {
     app.get(
         '/api/posts',requireLogin,
         async (req, res) => {
-                const posts = await Post.find({_user: req.user.id},{comments:{$slice : [0,10]}}).populate('likes').populate({path:'comments._user',model:'users',select:'imageName'});
+                const posts = await Post.find({_user: req.user.id},{comments:{$slice : [0,10]}}).populate('likes','username').populate({path:'comments._user',model:'users',select:'imageName'});
                 res.send(posts);
 
         }
@@ -28,7 +28,7 @@ module.exports = app => {
                 }).save();
 
             }else{
-                await Post.updateOne({_id:postId},{title:title,content:content}).exec();
+                await Post.updateOne({_id:postId},{title:title,content:content,isEdited:true}).exec();
             }
             const posts=await Post.find({_user:req.user.id});
             res.send(posts);
@@ -56,10 +56,32 @@ module.exports = app => {
             const{ postId,num}=req.body;
 
 
-            const posts = await Post.find({_id:postId},{comments:{$slice :[num*10,10]}}).populate({path:'comments._user',model:'users',select:'imageName'});
+            const posts = await Post.find({_id:postId},{comments:{$slice :[num*10,10]}}).populate('likes','username').populate({path:'comments._user',model:'users',select:'imageName'});
 
 
             res.send(posts);
+
+        }
+    );
+
+    app.get(
+        '/api/feed',requireLogin,
+        async (req, res) => {
+
+
+            const user=await User.findOne({_id:req.user.id}).populate('friends');
+            const friends=user.friends;
+            const feed=[];
+            for(let i=0;i<friends.length;i++)
+             {
+                 const posts = await Post.find({_user:friends[i]._id ,createdAt:{$gte: Date.now()-2*24*60*60*1000}},{comments:{$slice :[0,10]}}).populate('likes','username').populate({path:'comments._user',model:'users',select:'imageName'});
+                 feed.push(posts);
+
+             }
+
+            const merged = [].concat.apply([], feed);
+
+            res.send(merged);
 
         }
     );
@@ -79,7 +101,7 @@ module.exports = app => {
               await Post.updateOne({_id:postId}, {$addToSet :{likes : req.user.id}});
 
               // await Post.updateOne({_id:postId}, {$inc:{likeCounter :1}});
-                const post=await Post.findOne({_id:postId}).populate('likes');
+                const post=await Post.findOne({_id:postId}).populate('likes','username').populate({path:'comments._user',model:'users',select:'imageName'});
                // const posts=await Post.find({_user:post._user}).populate('likes');
 
               //  await Post.updateOne({likes : req.user.id},{$inc : {counter : 1}}).exec();
@@ -90,7 +112,8 @@ module.exports = app => {
                 await Post.updateOne({_id:postId}, {$pull :{likes : req.user.id}});
 
                // await Post.updateOne({_id:postId}, {$inc:{likeCounter :-1}});
-                const post=await Post.findOne({_id:postId}).populate('likes');
+                const post=await Post.findOne({_id:postId}).populate('likes','username').populate({path:'comments._user',model:'users',select:'imageName'});
+
                 //const posts=await Post.find({_user:post._user}).populate('likes');
                 res.send(post);
             }
@@ -115,11 +138,11 @@ module.exports = app => {
 
                 await Post.updateOne({_id:postId}, {$inc:{commentCounter :1}}).exec();
 
-                const post=await Post.findOne({_id:postId});
-                const posts=await Post.find({_user:post._user},{comments:{$slice :[0,10]}}).populate({path:'comments._user',model:'users',select:'imageName'});
+                const post=await Post.findOne({_id:postId},{comments:{$slice :[0,10]}}).populate('likes','username').populate({path:'comments._user',model:'users',select:'imageName'});
+             //   const posts=await Post.find({_user:post._user},{comments:{$slice :[0,10]}}).populate({path:'comments._user',model:'users',select:'imageName'});
                 //  await Post.updateOne({likes : req.user.id},{$inc : {counter : 1}}).exec();
 
-                res.send(posts);
+                res.send(post);
 
         }
     );

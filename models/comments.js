@@ -8,6 +8,6 @@ const commentSchema=new Schema({
     comment: String,
     name:String,
 
-});
+},{timestamps:true});
 
 mongoose.model('comments',commentSchema);

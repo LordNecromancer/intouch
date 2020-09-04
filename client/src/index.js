@@ -10,12 +10,16 @@ import * as serviceWorker from './serviceWorker';
 import reducers from './reducers';
 import reduxThunk from 'redux-thunk';
 import './index.css'
+import './flex.css'
+import socketIOClient from "socket.io-client";
+export const socket= socketIOClient('http://localhost:5000/');
 
 const store=createStore(reducers,{},applyMiddleware(reduxThunk));
+
 ReactDOM.render(
 
 
-    <Provider store={store}><App /></Provider>,
+    <Provider  store={store}><App /></Provider>,
     document.getElementById('root')
 );
 

@@ -1,6 +1,6 @@
 import React ,{Component} from 'react';
 import {connect} from 'react-redux';
-import {acceptFriendRequest,fetchUser} from '../actions'
+import {acceptFriendRequest,findUser} from '../actions'
 import {Link} from "react-router-dom";
 import ComposeComment from "./ComposeComment";
 import CommentSection from "./CommentSection";
@@ -16,37 +16,37 @@ class FriendRequests extends Component{
             friendRequests=[];
         }
         return(
-            <div>
+            <div >
 
-                <ul>
+                <ul style={{marginTop:'50px'}}>
                     {friendRequests.reverse().map((request) =>{
 
                         return(
-                            <div className="row ">
-                                <div className="col s12 m6 push-m3 ">
-                                    <div className="card blue-grey darken-1">
-                                        <div className="card-content white-text">
-                                            <span className="card-title  center-align">{request.username}</span>
-                                            <p>
+
+                                <div className=" ui card centered  ">
+                                    <div className="content">
+                                        <img className='right floated mini ui image' src={'http://localhost:5000/'+request.imageName}/>
+                                            <div className="header clickable" onClick={() =>this.props.findUser(request.username,this.props.history)}>
                                                 {request.username}
-                                            </p>
+                                            </div>
 
+                                        <div className="ui two buttons">
+                                            <div className="ui basic green button" onClick={()=>this.props.acceptFriendRequest(request._id)}>Approve</div>
+                                            <div className="ui basic red button">Decline</div>
                                         </div>
-                                        <div className="card-action">
-                                            <button onClick={()=>this.props.acceptFriendRequest(request._id)}>
-                                                Accept
-                                            </button>
 
 
 
 
-                                        </div>
+
+                                    </div>
+
                                     </div>
 
 
-                                </div>
 
-                            </div>
+
+
 
                         )})}
                 </ul>
@@ -65,4 +65,4 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps,{acceptFriendRequest,fetchUser})(FriendRequests);
+export default connect(mapStateToProps,{acceptFriendRequest,findUser})(FriendRequests);

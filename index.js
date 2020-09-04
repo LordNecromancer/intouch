@@ -10,7 +10,9 @@ const cookieSession=require('cookie-session');
 require('./models/users');
 require('./models/posts');
 require('./models/chats');
+const requireLogin= require('../middleware/requireLogin');
 
+const requireLogout= require('../middleware/requireLogout');
 require('./services/passport');
 
 
@@ -31,7 +33,7 @@ socket.on('connection',(socket) =>{
         const user= await User.findOne({username : name});
         const chat=await Chat.findOne({
             _users:{$all:[user._id,myId]}
-        }).populate('messages._sender','username');
+        }).populate('messages._sender','username').populate('_users','username').populate('_users','imageName');;
 
         socket.emit('initial_data',chat)
 
@@ -42,8 +44,11 @@ socket.on('connection',(socket) =>{
             _users:{$all:[user._id,myId]}
         });
         if(chat){
-            await Chat.updateOne({_id:chat._id},{$push:{messages :{_sender:myId,message:message}}})
-            chat=await Chat.findOne({_id:chat._id}).populate('messages._sender','username');
+
+            await Chat.updateOne({_id:chat._id},{$push:{messages :{_sender:myId,message:message}}});
+            socket.emit('updated_chat',{messages :{_sender:{_id:myId},message:message}});
+
+            // chat=await Chat.findOne({_id:chat._id}).populate('_users','username').populate('_users','imageName');
         }else{
             let newChat=await new Chat({
                 _users:[myId,user._id],
@@ -57,7 +62,6 @@ socket.on('connection',(socket) =>{
             socket.emit('updated_chat',newChat);
         }
 
-        socket.emit('updated_chat',chat);
     })
 })
 
@@ -121,7 +125,7 @@ try {
     console.log('Error :       '+e);
 }
 
-app.post('/api/upload',upload.single('imageData'),async (req,res) =>{
+app.post('/api/upload',requireLogin,upload.single('imageData'),async (req,res) =>{
     await User.updateOne({_id:req.user.id},{imageName:req.file.filename});
     const user=await User.findOne({_id:req.user.id});
     res.send(user);

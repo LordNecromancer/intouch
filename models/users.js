@@ -13,6 +13,6 @@ const userSchema=new Schema({
     friends:[{type:Schema.Types.ObjectId ,ref:'users'}],
     friendRequestsSent: [String],
     imageName :{type :String ,default:'default.jpg'}
-});
+},{timestamps:true});
 
 mongoose.model('users',userSchema);

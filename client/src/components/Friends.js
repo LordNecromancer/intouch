@@ -14,28 +14,22 @@ class Friends extends Component{
             friends=[];
         }
         return(
-            <div>
+            <div >
 
-                <ul>
+                <ul style={{marginTop:'50px'}}>
                     {friends.reverse().map((friend) =>{
 
                         return(
-                            <div className="row ">
-                                <div className="col s12 m6 push-m3 ">
-                                    <div className="card blue-grey darken-1">
-                                        <div className="card-content white-text" onClick={() =>this.props.findUser(friend.username,this.props.history)}>
-                                            <span className="card-title  center-align">{friend.username}</span>
+                            <div className="ui card centered ">
+                                <div className="content clickable " onClick={() =>this.props.findUser(friend.username,this.props.history)}>
+                                    <img className="ui avatar image" src={'http://localhost:5000/'+friend.imageName}/>
 
-
-                                        </div>
-                                        <div className="card-action">
-
+                                            <div className="header center aligned" >
+                                                {friend.username}
+                                            </div>
 
 
 
-
-                                        </div>
-                                    </div>
 
 
                                 </div>

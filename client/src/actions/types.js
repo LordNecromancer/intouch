@@ -7,3 +7,6 @@ export const CATCH_ERROR="catch_error";
 export const FETCH_CHATS= "fetch_chats";
 export const FETCH_MESSAGES="fetch_messages";
 export const FETCH_POST="fetch_post";
+export const UPDATE_LIKES="update_likes";
+export const FETCH_FEED="fetch_feed";
+export const UPDATE_CHATS="update_chats";

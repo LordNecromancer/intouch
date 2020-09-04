@@ -1,9 +1,10 @@
-import {FETCH_POSTS,FETCH_POST,UPDATE_LIKES} from "../actions/types";
+import {FETCH_FEED, FETCH_POST, FETCH_POSTS, UPDATE_LIKES} from "../actions/types";
 import _ from 'lodash';
 
-export default function postReducer(state={},actions){
+export default function feedReducer(state={},actions){
 
     switch (actions.type) {
+
 
 
         case UPDATE_LIKES:
@@ -14,7 +15,8 @@ export default function postReducer(state={},actions){
 
             return {...state,[actions.payload._id]:actions.payload};
 
-        case FETCH_POSTS:
+
+        case FETCH_FEED:
                 return {..._.mapKeys(actions.payload,'_id')};
 
 

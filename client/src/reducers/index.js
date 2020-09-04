@@ -5,6 +5,7 @@ import postReducer from "./postReducer";
 import findUserReducer from "./findUserReducer";
 import errorReducer from "./errorReducer";
 import chatReducer from "./chatReducer";
+import feedReducer from "./feedReducer";
 
 
 export default combineReducers({
@@ -13,5 +14,6 @@ export default combineReducers({
    posts:postReducer,
    find:findUserReducer,
    error:errorReducer,
-   chats:chatReducer
+   chats:chatReducer,
+   feed:feedReducer
 });

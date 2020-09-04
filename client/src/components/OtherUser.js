@@ -9,6 +9,7 @@ import CommentSection from "./CommentSection";
 import ReactToolTip from 'react-tooltip';
 import MyModali from "./general/modali";
 import Modal from "./Modal";
+import handleMeta from "./general/handleMeta";
 
 class OtherUser extends Component{
 
@@ -91,6 +92,9 @@ class OtherUser extends Component{
                                 <div className="col s12 m6 push-m3 ">
                                     <div className="card blue-grey darken-1">
                                         <div className="card-content white-text">
+                                            <div className='meta'>
+                                                {handleMeta(post)}
+                                            </div>
                                             <span className="card-title  center-align">{post.title}</span>
                                             <p>
                                                 {post.content}

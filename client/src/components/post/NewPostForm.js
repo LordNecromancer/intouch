@@ -4,6 +4,7 @@ import {withRouter, Link} from 'react-router-dom';
 import {sendPost} from '../../actions';
 import {connect} from 'react-redux';
 import postFormField from "./postFormField";
+import '../../flex.css'
 class NewPostForm extends Component{
 
 
@@ -30,9 +31,9 @@ class NewPostForm extends Component{
     render() {
 
     return(
-        <div>
+        <div className='flex-container'>
 
-            <Form onSubmit={this.props.handleSubmit((values) => this.props.sendPost(this.props.location.state.postId,values,this.props.history))}>
+            <Form className='form-field' onSubmit={this.props.handleSubmit((values) => this.props.sendPost(this.props.location.state.postId,values,this.props.history))}>
             {this.renderContent()}
 
            <Link to='/dashboard' className="red  btn-flat">

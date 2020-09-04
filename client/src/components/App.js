@@ -18,7 +18,10 @@ import Settings from '../components/Setting';
 import ReactDom from 'react-dom';
 import socketIOClient from 'socket.io-client';
 import MessageList from "./MessageList";
- export const socket= socketIOClient('http://localhost:5000/');
+import Feed from "./Feed";
+import '../flex.css'
+
+
 class App extends Component{
 
 
@@ -31,7 +34,7 @@ class App extends Component{
 
     render() {
         return(
-            <div className="container ">
+            <div  >
 
                 <BrowserRouter>
                     <div>
@@ -40,6 +43,8 @@ class App extends Component{
                         <Header/>
                         <Route exact path="/" component={Landing}/>
                         <Route exact path="/dashboard" component={Dashboard}/>
+                        <Route exact path="/feed" component={Feed}/>
+
                         <Route exact path="/post/new" component={NewPostForm}/>
                         <Route  path="/sign_up" component={SignUpForm}/>
                         <Route  path="/log_in" component={LogInForm}/>

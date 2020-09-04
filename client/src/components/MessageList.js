@@ -51,7 +51,7 @@ class MessageList extends Component{
                                     <div className="col s12 m6 push-m3 ">
                                         <div className="card blue-grey darken-1">
                                             <div className="card-content white-text">
-                                                <span className="card-title  center-align">{sender[0].username}</span>
+                                                <Link to={'/users/message/'+sender[0].username} className="card-title  center-align">{sender[0].username}</Link>
 
 
 

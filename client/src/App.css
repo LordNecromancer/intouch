@@ -23,6 +23,15 @@
   margin-bottom: -100px;
 }
 
+.my_card{
+  display: flex;
+  justify-content: center;
+  position: absolute;
+}
+
+.clickable{
+  cursor: pointer;
+}
 
 
 .App-link {

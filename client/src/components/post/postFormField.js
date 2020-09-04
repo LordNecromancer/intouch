@@ -3,11 +3,10 @@ import React from 'react';
 export default ({input,label,type, meta :{touched,error}}) =>{
 
     return (
-        <div style={{marginBottom : '15px'}}>
-        <label>{label}</label>
+        <div style={{marginBottom : '15px',marginTop:'30px'}}>
 
         <div className="row ">
-            <input className="input-field col s12 m8 offset-m2" {...input} type={type} style={{marginBottom : '5px'}} />
+            <input placeholder={label} className="input-field col s12 m8 offset-m2" {...input} type={type} style={{marginBottom : '5px'}} />
 
 
         </div>

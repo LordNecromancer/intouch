@@ -17,7 +17,7 @@ class composeComment extends Component  {
             <div>
 
             <span>
-                <input value={this.state.term} className="input-field" onChange={(event) => this.setState({term : event.target.value })}/>
+                <input value={this.state.term} placeholder='Add Comment ...' className="input-field" onChange={(event) => this.setState({term : event.target.value })}/>
 
                 <button type='submit' className="btn-floating right" onClick={this.submitHandle}>
                     send

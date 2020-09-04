@@ -92,7 +92,7 @@ class Header extends Component{
                         /*<DropDown style ={{zIndex:10}} main={{title:'settings'}} list={[{title:'logout',aLink:'/api/logout'},{title:'add friend',link:'/'}]}>*/
                     <li key='9'>
                         <div className='left'>
-                            <Button.Group>
+                            <Button.Group color='teal' style={{height:'9.4vh',marginBottom:'0'}} >
                                 <Button>
                             <img style={{width:'50px',height:'50px'}} className='circle responsive-img' src={this.props.auth.imageName ?  'http://localhost:5000/'+this.props.auth.imageName: ''}/>
                             {this.props.auth.username}
@@ -111,10 +111,11 @@ class Header extends Component{
     }
     render() {
         return(
-            <nav>
-            <div className="nav-wrapper">
-                <Link to={this.props.auth ? '/dashboard' : '/'}  className=" left brand-logo">
-                    Intouch
+            <nav >
+            <div className="nav-wrapper" style={{backgroundColor:'orange' }}>
+                <Link to={this.props.auth ? '/dashboard' : '/'}  className=" left brand-logo ">
+                    <img style={{height:'9.3vh'}} className='ui image medium' src='http://localhost:5000/logo1.png'/>
+
                 </Link>
                 <ul className="right">
                     {this.renderContent()}

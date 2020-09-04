@@ -4,10 +4,16 @@ import {getMoreComments} from "../actions";
 import {Comment,Header} from "semantic-ui-react";
 import {withRouter} from 'react-router-dom';
 import {findUser} from "../actions";
+import handleMeta from "./general/handleMeta";
 
 class CommentSection extends Component {
 
     state={num : 0};
+
+    componentDidMount() {
+        this.setState({num:1});
+    }
+
     render(){
     return(
 
@@ -23,15 +29,20 @@ class CommentSection extends Component {
 
                         <Comment.Avatar src={'http://localhost:5000/'+comment._user.imageName}/>
                         <Comment.Content>
-                        <Comment.Author  onClick={() =>this.props.findUser(comment.name,this.props.history)}>
-                        {comment.name}
-                        </Comment.Author>
+                            <Comment.Author className='clickable' onClick={() =>this.props.findUser(comment.name,this.props.history)}>
+                                {comment.name}
+                            </Comment.Author>
+                            <Comment.Metadata>
+                                <div>{handleMeta(comment)}</div>
+                            </Comment.Metadata>
                             <Comment.Text>
                             {comment.comment}
                             </Comment.Text>
                         </Comment.Content>
 
+                        <div className='ui hidden divider'></div>
                     </Comment>
+
                 )
             })
         }

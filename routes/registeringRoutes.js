@@ -2,10 +2,13 @@ const passport=require('passport');
 const mongoose=require('mongoose');
 
 const User=mongoose.model('users');
+const requireLogin= require('../middleware/requireLogin');
+
+const requireLogout= require('../middleware/requireLogout');
 
 
 module.exports = app => {
-    app.post('/login/common', passport.authenticate('local'), (req, res) => {
+    app.post('/login/common',requireLogout, passport.authenticate('local'), (req, res) => {
 
         res.send(req.user);
     });
@@ -17,14 +20,14 @@ module.exports = app => {
         }
     );
     app.get(
-        '/login/google/oauth',
+        '/login/google/oauth',requireLogout,
         passport.authenticate('google', {
             scope: ['profile', 'email']
         })
     );
 
     app.get(
-        '/api/logout',
+        '/api/logout',requireLogin,
         (req,res) =>{
             req.logout();
             res.redirect('/');
@@ -37,7 +40,7 @@ module.exports = app => {
 
     })
 
-    app.post('/api/sign_up' , async (req,res) =>{
+    app.post('/api/sign_up' ,requireLogout, async (req,res) =>{
         const {username,password}= req.body;
 
         const existingUser=await User.findOne({username : username});
