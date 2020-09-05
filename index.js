@@ -10,9 +10,9 @@ const cookieSession=require('cookie-session');
 require('./models/users');
 require('./models/posts');
 require('./models/chats');
-const requireLogin= require('../middleware/requireLogin');
+const requireLogin= require('./middleware/requireLogin');
 
-const requireLogout= require('../middleware/requireLogout');
+const requireLogout= require('./middleware/requireLogout');
 require('./services/passport');
 
 
