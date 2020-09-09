@@ -24,4 +24,7 @@ module.exports = function(app) {
     app.use(proxy('/login/google/oauth',
         { target: 'http://localhost:5000/' }
     ));
+    app.use(proxy('/confirmation/*',
+        { target: 'http://localhost:5000/' }
+    ));
 }

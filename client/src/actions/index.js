@@ -88,31 +88,44 @@ export function signUp(values,history) {
 
     return async (dispatch) => {
 
+
+        let res;
         try {
-            const res = await axios.post('/api/sign_up', values);
+            res = await axios.post('/api/sign_up', values);
+        }catch (e) {
+
+            return
+        }
             if (!res.data)
                 history.push('/');
+            else
             dispatch({type: CATCH_ERROR, payload: res.data});
-        } catch (e) {
-            console.log(e)
-        }
+
 
     }
 }
 
 export function logIn(values,history) {
 
-    try{
+
     return async (dispatch)=> {
+        let res;
+        try {
+             res = await axios.post('/login/common', values);
+            if (res.data) {
+                history.push('/dashboard');
+                dispatch({type: FETCH_USER, payload: res.data});
+            }
 
-        const res = await axios.post('/login/common', values);
-        history.push('/dashboard');
-        dispatch({type: FETCH_USER, payload: res.data});
-    }
-    }catch (e) {
-        console.log(e)
-    }
+        }catch (e) {
+            dispatch({type: CATCH_ERROR, payload: {type:'log_in_error',error:"incorrect username or password"}});
 
+            return
+        }
+
+
+
+    }
 }
 
 export function likePost(postId) {

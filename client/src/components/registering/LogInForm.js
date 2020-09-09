@@ -15,7 +15,7 @@ class LogInForm extends Component{
             <div >
                 <img style={{height:'9.3vh'}} className='ui image medium' src='http://localhost:5000/logo1.png'/>
 
-                <Field  name="username" type="text" label="Username" component={postFormField}/>
+                <Field  name="username" type="text" label="Username or email" component={postFormField}/>
                 <Field  name="password" type="password" label="Password" component={postFormField}/>
 
 
@@ -54,9 +54,9 @@ function validate(values) {
     const errors={};
 
     if(!values.username)
-        errors.username="Choose a username !";
+        errors.username="Enter a username or email !";
     if(!values.password)
-        errors.password="choose a password !";
+        errors.password="Enter your password !";
 
 
 

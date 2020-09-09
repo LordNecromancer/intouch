@@ -1,5 +1,6 @@
 const express=require('express');
 const mongoose=require('mongoose');
+//const flash=require("connect-flash");
 const passport=require('passport');
 const path =require('path');
 const BodyParser=require('body-parser');
@@ -10,6 +11,7 @@ const cookieSession=require('cookie-session');
 require('./models/users');
 require('./models/posts');
 require('./models/chats');
+require('./models/tokens');
 const requireLogin= require('./middleware/requireLogin');
 
 const requireLogout= require('./middleware/requireLogout');
@@ -23,6 +25,7 @@ const Chat=mongoose.model('chats');
 
 
 const app=express();
+//app.use(flash());
 
 const http=require('http').Server(app);
 const io=require('socket.io');

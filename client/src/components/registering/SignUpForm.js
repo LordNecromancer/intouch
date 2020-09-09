@@ -16,6 +16,7 @@ class SignUpForm extends Component{
                 <img style={{height:'9.3vh'}} className='ui image medium' src='http://localhost:5000/logo1.png'/>
 
                 <Field name="username" type="text" label="Username" component={postFormField}/>
+                <Field name="email" type="email" label="ٍEmail" component={postFormField}/>
                 <Field name="password" type="password" label="Password" component={postFormField}/>
                 <Field name="confirmPass" type="password" label="Confirm Password" component={postFormField}/>
 
@@ -50,13 +51,14 @@ class SignUpForm extends Component{
 
 function validate(values,props) {
 
-    console.log(props)
     const errors={};
 
     // if(props.serverError)
     //     errors.username=props.serverError;
     if(!values.username )
         errors.username="Choose a username !";
+    if(!values.email )
+        errors.email="Enter your email !";
     if(!values.password)
         errors.password="choose a password !";
     if(!values.confirmPass)

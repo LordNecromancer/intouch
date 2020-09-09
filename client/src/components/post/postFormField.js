@@ -2,6 +2,7 @@ import React from 'react';
 
 export default ({input,label,type, meta :{touched,error}}) =>{
 
+    console.log(error)
     return (
         <div style={{marginBottom : '15px',marginTop:'30px'}}>
 

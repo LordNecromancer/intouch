@@ -37,7 +37,7 @@ passport.use(new googleStrategy({
             const user=await  new User({
                 googleId:profile.id,
                 name : profile.name.givenName,
-                username:profile.emails[0].value
+               // username:profile.emails[0].value
             }).save();
 
             return done(null,user);
@@ -49,10 +49,10 @@ passport.use(new googleStrategy({
 
 passport.use(new localStrategy(
     async (username,password,done) =>{
-        const user=await User.findOne({username : username ,password :password}).select({password:false}).populate('friendRequestsReceived ','username').populate('friends','username').populate('friendRequestsSent','username');
-        if(user){
-
+        const user=await User.findOne({$or:[{username : username } ,{email:username}],password :password,isActive:true}).select({password:false}).populate('friendRequestsReceived ','username').populate('friends','username').populate('friendRequestsSent','username');
+        console.log(user)
+        if(user)
             return done(null,user);
-        }
-        return (null,false);
+
+        return done(null,false);
     }));
