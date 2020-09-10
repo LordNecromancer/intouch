@@ -5,6 +5,7 @@ import ReactToolTip from 'react-tooltip';
 //import DropDown from "./general/DropDown";
 //import {Dropdown} from "semantic-ui-react";
 import {Dropdown,Button} from "semantic-ui-react";
+import keys from '../../../configs/keys'
 
 const dropDownOptions=[
     {
@@ -94,7 +95,7 @@ class Header extends Component{
                         <div className='left'>
                             <Button.Group color='teal' style={{height:'9.4vh',marginBottom:'0'}} >
                                 <Button>
-                            <img style={{width:'50px',height:'50px'}} className='circle responsive-img' src={this.props.auth.imageName ?  'http://localhost:5000/'+this.props.auth.imageName: ''}/>
+                            <img style={{width:'50px',height:'50px'}} className='circle responsive-img' src={this.props.auth.imageName ?  keys.host+this.props.auth.imageName: ''}/>
                             {this.props.auth.username}
                                 </Button>
 
@@ -114,7 +115,7 @@ class Header extends Component{
             <nav >
             <div className="nav-wrapper" style={{backgroundColor:'orange' }}>
                 <Link to={this.props.auth ? '/dashboard' : '/'}  className=" left brand-logo ">
-                    <img style={{height:'9.3vh'}} className='ui image medium' src='http://localhost:5000/logo1.png'/>
+                    <img style={{height:'9.3vh'}} className='ui image medium' src={keys.host+'logo1.png'}/>
 
                 </Link>
                 <ul className="right">
