@@ -206,7 +206,6 @@ export function sendMessage(myId,name,message) {
 
         socket.emit('send_message', {myId: myId, name: name,message:message});
         socket.on('updated_chat',(chat)=>{
-            console.log(6)
 
             dispatch({type:UPDATE_CHATS,payload:chat});
 

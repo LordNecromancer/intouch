@@ -12,7 +12,8 @@ import reduxThunk from 'redux-thunk';
 import './index.css'
 import './flex.css'
 import socketIOClient from "socket.io-client";
-export const socket= socketIOClient('http://localhost:5000/');
+import keys from './keys'
+export const socket= socketIOClient(keys.host);
 
 const store=createStore(reducers,{},applyMiddleware(reduxThunk));
 

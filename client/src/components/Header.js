@@ -5,7 +5,7 @@ import ReactToolTip from 'react-tooltip';
 //import DropDown from "./general/DropDown";
 //import {Dropdown} from "semantic-ui-react";
 import {Dropdown,Button} from "semantic-ui-react";
-import keys from '../../../configs/keys'
+import keys from '../keys'
 
 const dropDownOptions=[
     {
