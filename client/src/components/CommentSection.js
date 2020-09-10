@@ -5,6 +5,7 @@ import {Comment,Header} from "semantic-ui-react";
 import {withRouter} from 'react-router-dom';
 import {findUser} from "../actions";
 import handleMeta from "./general/handleMeta";
+import keys from '../keys'
 
 class CommentSection extends Component {
 
@@ -27,7 +28,7 @@ class CommentSection extends Component {
                 return (
                     <Comment>
 
-                        <Comment.Avatar src={'http://localhost:5000/'+comment._user.imageName}/>
+                        <Comment.Avatar src={keys.host+comment._user.imageName}/>
                         <Comment.Content>
                             <Comment.Author className='clickable' onClick={() =>this.props.findUser(comment.name,this.props.history)}>
                                 {comment.name}

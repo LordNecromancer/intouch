@@ -7,6 +7,8 @@ import ComposeComment from "./ComposeComment";
 import CommentSection from "./CommentSection";
 import UploadImage from "./UploadImage";
 import handleMeta from "./general/handleMeta";
+import keys from '../keys'
+
 
 class Dashboard extends Component{
 
@@ -121,7 +123,7 @@ class Dashboard extends Component{
 
         return <div className='ui active dimmer centered ' >
 
-            <img className='ui medium image' src={'http://localhost:5000/loader.png'}/>
+            <img className='ui medium image' src={keys.host+'loader.png'}/>
             <div className="ui loader">Loading</div>
 
         </div>

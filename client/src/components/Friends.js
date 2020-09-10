@@ -1,6 +1,8 @@
 import React ,{Component} from 'react';
 import {connect} from 'react-redux';
 import {findUser} from "../actions";
+import keys from '../keys';
+
 
 
 class Friends extends Component{
@@ -22,7 +24,7 @@ class Friends extends Component{
                         return(
                             <div className="ui card centered ">
                                 <div className="content clickable " onClick={() =>this.props.findUser(friend.username,this.props.history)}>
-                                    <img className="ui avatar image" src={'http://localhost:5000/'+friend.imageName}/>
+                                    <img className="ui avatar image" src={keys.host+friend.imageName}/>
 
                                             <div className="header center aligned" >
                                                 {friend.username}

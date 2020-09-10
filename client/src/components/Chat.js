@@ -4,6 +4,8 @@ import {fetchChats,sendMessage,findUser,fetchUser} from "../actions";
 import {Link, withRouter} from 'react-router-dom';
 import '../flex.css'
 import {socket} from "./App";
+import keys from '../keys'
+
 
 class Chat extends Component{
 
@@ -27,7 +29,7 @@ class Chat extends Component{
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if( this.props.current_user && (JSON.stringify(prevProps.chats)!==JSON.stringify(this.props.chats) || !this.props.chats.messages) ) {
+        if( this.props.current_user && (JSON.stringify(prevProps.chats)!==JSON.stringify(this.props.chats) ) ) {
             //  this.props.fetchChats(this.props.current_user._id,this.props.match.params.name);
             this.scrollToBottom();
 
@@ -46,8 +48,8 @@ class Chat extends Component{
 
                 <div  className='  chat_flex_container'>
                     <div className="content clickable  " onClick={() =>this.props.findUser(this.props.match.params.name,this.props.history)}  style={{backgroundColor:'grey' ,alignSelf:'flex-start',width:'100%'}}>
-                        <Link to={this.props.chats.username}  className=" right brand-logo ">
-                            <img style={{width:'50px',height:'50px'}} className='circle responsive-img' src={this.props.chats._users[1].imageName ?  'http://localhost:5000/'+this.props.chats._users[1].imageName: ''}/>
+                        <Link  className=" right brand-logo ">
+                            <img style={{width:'50px',height:'50px'}} className='circle responsive-img' src={this.props.chats._users[1].imageName ?  keys.host+this.props.chats._users[1].imageName: ''}/>
 
                         </Link>
 
@@ -60,7 +62,7 @@ class Chat extends Component{
                             return (
 
                                 <React.Fragment>
-                                <div style={(chat._sender._id===this.props.current_user._id) ?{margin:'50px 50px',alignSelf:'flex-start',maxWidth:'45%', wordWrap:'break-word'} :{margin:'50px 50px',alignSelf:'flex-end',maxWidth:'45%', wordWrap:'break-word'}} className={(chat._sender._id===this.props.current_user._id) ? ' light-green  card-panel ' : ' light-blue card-panel'}>
+                                <div style={(chat._sender===this.props.current_user._id) ?{margin:'50px 50px',alignSelf:'flex-start',maxWidth:'45%', wordWrap:'break-word'} :{margin:'50px 50px',alignSelf:'flex-end',maxWidth:'45%', wordWrap:'break-word'}} className={(chat._sender===this.props.current_user._id) ? ' light-green  card-panel ' : ' light-blue card-panel'}>
 
                                     { chat.message}
                                 </div>
@@ -116,6 +118,7 @@ class Chat extends Component{
 
 function mapStateToProps(state) {
 
+    console.log(state.chats);
     return {
         current_user:state.auth,
 

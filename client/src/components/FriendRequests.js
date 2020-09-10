@@ -4,6 +4,8 @@ import {acceptFriendRequest,findUser} from '../actions'
 import {Link} from "react-router-dom";
 import ComposeComment from "./ComposeComment";
 import CommentSection from "./CommentSection";
+import keys from '../keys';
+
 
 class FriendRequests extends Component{
 
@@ -25,7 +27,7 @@ class FriendRequests extends Component{
 
                                 <div className=" ui card centered  ">
                                     <div className="content">
-                                        <img className='right floated mini ui image' src={'http://localhost:5000/'+request.imageName}/>
+                                        <img className='right floated mini ui image' src={keys.host+request.imageName}/>
                                             <div className="header clickable" onClick={() =>this.props.findUser(request.username,this.props.history)}>
                                                 {request.username}
                                             </div>

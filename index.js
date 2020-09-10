@@ -36,7 +36,7 @@ socket.on('connection',(socket) =>{
         const user= await User.findOne({username : name});
         const chat=await Chat.findOne({
             _users:{$all:[user._id,myId]}
-        }).populate('messages._sender','username').populate('_users','username').populate('_users','imageName');;
+        }).populate('_users','username').populate('_users','imageName');
 
         socket.emit('initial_data',chat)
 
@@ -49,7 +49,7 @@ socket.on('connection',(socket) =>{
         if(chat){
 
             await Chat.updateOne({_id:chat._id},{$push:{messages :{_sender:myId,message:message}}});
-            socket.emit('updated_chat',{messages :{_sender:{_id:myId},message:message}});
+            socket.emit('updated_chat',{messages :{_sender:myId,message:message}});
 
             // chat=await Chat.findOne({_id:chat._id}).populate('_users','username').populate('_users','imageName');
         }else{
@@ -61,7 +61,7 @@ socket.on('connection',(socket) =>{
             await User.updateOne({_id:myId},{$push:{chats:newChat}});
             await User.updateOne({_id:user._id},{$push:{chats:newChat}});
 
-            newChat=newChat.populate('messages._sender','username');
+            newChat=newChat.populate('_users','username').populate('_users','imageName');
             socket.emit('updated_chat',newChat);
         }
 

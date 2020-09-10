@@ -8,10 +8,13 @@ export default function chatReducer(state={},actions){
             return actions.payload;
 
         case UPDATE_CHATS: {
-            console.log(actions.type)
-            let t = [...state.messages];
-            t.push(actions.payload.messages)
-            return {...state, messages: t};
+            if(state) {
+                let t = [...state.messages];
+                t.push(actions.payload.messages)
+                return {...state, messages: t};
+            }
+            return  actions.payload;
+
         }
         default :
             return state;
