@@ -1,6 +1,6 @@
 if(process.env.NODE_ENV === 'production'){
     module.exports={
-        host:''
+        host:'/'
     }
 }else{
     module.exports={
