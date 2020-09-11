@@ -4,7 +4,9 @@ import {withRouter, Link} from 'react-router-dom';
 import {logIn} from '../../actions';
 import {connect} from 'react-redux';
 import postFormField from '../post/postFormField';
-import '../../flex.css'
+import '../../flex.css';
+import keys from '../keys';
+
 class LogInForm extends Component{
 
 
@@ -13,7 +15,7 @@ class LogInForm extends Component{
     renderContent(){
         return(
             <div >
-                <img style={{height:'9.3vh'}} className='ui image medium' src='http://localhost:5000/logo1.png'/>
+                <img style={{height:'9.3vh'}} className='ui image medium' src={keys.host+'logo1.png'}/>
 
                 <Field  name="username" type="text" label="Username or email" component={postFormField}/>
                 <Field  name="password" type="password" label="Password" component={postFormField}/>

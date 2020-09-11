@@ -4,7 +4,9 @@ import {withRouter, Link} from 'react-router-dom';
 import {signUp} from '../../actions';
 import {connect} from 'react-redux';
 import postFormField from '../post/postFormField';
-import '../../flex.css'
+import '../../flex.css';
+import keys from '../keys';
+
 class SignUpForm extends Component{
 
 
@@ -13,7 +15,7 @@ class SignUpForm extends Component{
     renderContent(){
         return(
             <div>
-                <img style={{height:'9.3vh'}} className='ui image medium' src='http://localhost:5000/logo1.png'/>
+                <img style={{height:'9.3vh'}} className='ui image medium' src={keys.host+'logo1.png'}/>
 
                 <Field name="username" type="text" label="Username" component={postFormField}/>
                 <Field name="email" type="email" label="ٍEmail" component={postFormField}/>
