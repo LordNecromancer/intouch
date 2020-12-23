@@ -14,6 +14,7 @@ import verifyDelete from "./post/verifyDelete";
 import FriendRequests from "./FriendRequests";
 import Friends from "./Friends";
 import Chat from "./Chat";
+import ShowMessage from "./general/ShowMessage";
 import Settings from '../components/Setting';
 import ReactDom from 'react-dom';
 import socketIOClient from 'socket.io-client';
@@ -54,6 +55,8 @@ class App extends Component{
                         <Route exact path="/user/friends" component={Friends}/>
                         <Route exact path="/settings" component={Settings}/>
                         <Route exact path="/messages" component={MessageList}/>
+                        <Route exact path="/showMessage" component={ShowMessage}/>
+
 
 
 

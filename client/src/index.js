@@ -13,14 +13,28 @@ import './index.css'
 import './flex.css'
 import socketIOClient from "socket.io-client";
 import keys from './keys'
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 export const socket= socketIOClient(keys.host);
 
-const store=createStore(reducers,{},applyMiddleware(reduxThunk));
+const persistConfig = {
+    key: 'root',
+    storage,
+    whitelist: ['showMessageReducer']
+}
+const persistedReducer = persistReducer(persistConfig, reducers);
 
+const store=createStore(persistedReducer,{},applyMiddleware(reduxThunk));
+let persistor = persistStore(store)
 ReactDOM.render(
 
 
-    <Provider  store={store}><App /></Provider>,
+    <Provider  store={store}>
+       <PersistGate loading={null} persistor={persistor}>
+            <App />
+        </PersistGate>
+        </Provider>,
     document.getElementById('root')
 );
 

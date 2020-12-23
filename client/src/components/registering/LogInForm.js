@@ -5,7 +5,7 @@ import {logIn} from '../../actions';
 import {connect} from 'react-redux';
 import postFormField from '../post/postFormField';
 import '../../flex.css';
-import keys from '../keys';
+import keys from '../../keys';
 
 class LogInForm extends Component{
 
@@ -32,7 +32,7 @@ class LogInForm extends Component{
             <div className="flex-container">
 
 
-                <Form  className="form-field" style={{border:'3px solid teal',padding:'25px 25px' ,color:'blue',alignSelf:'flex-end'} }  onSubmit={this.props.handleSubmit((values) => this.props.logIn(values,this.props.history))}>
+                <Form  className="form-field" style={{border:'3px solid teal',padding:'25px 25px' ,color:'blue',minWidth:'250px',maxWidth:'300px'} }  onSubmit={this.props.handleSubmit((values) => this.props.logIn(values,this.props.history))}>
                     {this.renderContent()}
 
                     <Link to='/dashboard' className="red  btn-flat">

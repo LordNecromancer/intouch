@@ -5,7 +5,7 @@ const passport=require('passport');
 const path =require('path');
 const BodyParser=require('body-parser');
 const multer=require('multer');
-
+let fs = require('fs-extra');
 const keys= require('./configs/keys');
 const cookieSession=require('cookie-session');
 require('./models/users');
@@ -87,7 +87,11 @@ require('./routes/postsRoutes')(app);
 
 const storage=multer.diskStorage({
     destination: (req,file,cb) =>{
-        cb(null,'./public/images/')
+        let userId=req.params.userId;
+
+        let path = `./public/images/${userId}`;
+        fs.mkdirsSync(path);
+        cb(null,path)
     },
     filename:(req,file,cb) =>{
         cb(null,Date.now()+'-'+file.originalname);
@@ -134,13 +138,54 @@ app.post('/api/upload',requireLogin,upload.single('imageData'),async (req,res) =
     res.send(user);
 })
 
+app.post(
+    '/api/post/:userId',requireLogin,upload.array('imageData'),async (req,res)=>{
+        let images=req.files.map((image) => image.filename)
+        const {title,content} = JSON.parse(req.body.values);
+        const{ postId}=req.body;
+
+        if (!postId) {
+            await new Post({
+                title: title,
+                content: content,
+                images:images,
+                _user: req.user.id,
+            }).save();
+
+        }else{
+            await Post.updateOne({_id:postId},{title:title,content:content,images:images,isEdited:true}).exec();
+        }
+        const posts=await Post.find({_user:req.user.id}).sort({createdAt:-1});
+        res.send(posts);
+
+    }
+);
+app.get('/',(req,res)=>res.send(3))
 app.use(express.static(path.join(__dirname, '/public/images')));
+
+app.use('/', function(req,res,next){
+    if(req.user){
+        req.url = req.user.id+req.url// add something to lead to different directory
+        console.log(2)
+
+    }
+    next();
+});
+// app.get('/', function(req, res){
+//     let image=req.params.image
+//         let p = req.user._id ? '/'+req.user._id +'/':'';
+//    // let resolvedPath = path.resolve(p);
+//
+//     res.sendFile('public/images'+p+image,{root:__dirname });
+// });
+app.use('/',express.static(path.join(__dirname, '/public/images')));
 
 if(process.env.NODE_ENV==='production'){
 
     app.use(express.static(path.join(__dirname,'/client/build')));
 
     app.get('*', (req,res) => {
+        console.log(path.join(__dirname,'client/build','index.html'))
         res.sendFile(path.join(__dirname,'client/build','index.html'));
     })
 }

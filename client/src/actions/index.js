@@ -10,7 +10,9 @@ import {
     FETCH_POST,
     UPDATE_LIKES,
     FETCH_FEED,
-    UPDATE_CHATS
+    UPDATE_CHATS,
+    SHOW_MESSAGE,
+    RESEND_TOKEN
 } from "./types";
 import {socket} from "../index";
 
@@ -22,11 +24,14 @@ export function fetchUser() {
      }
 }
 
-export function sendPost(postId,values,history) {
+export function sendPost(postId,values,imageData,history,userId) {
+    console.log(imageData)
     return async (dispatch) => {
-        const res=await axios.post('/api/post',{postId :postId,values});
+        let t=await JSON.stringify(imageData)
+        const res=await axios.post('/api/post/'+userId,imageData);
+       // dispatch({type:FETCH_POSTS,payload:res.data} );
         history.push('/dashboard');
-        dispatch({type:FETCH_POSTS,payload:res.data} );
+
     }
 }
 
@@ -41,16 +46,17 @@ export function sendComment(values,postId,history) {
 export function deletePost(postId,history) {
     return async (dispatch) => {
         const res=await axios.post('/api/post/delete',{postId :postId});
+       await dispatch({type:FETCH_USER,payload:res.data} );
         history.push('/dashboard');
-        dispatch({type:FETCH_USER,payload:res.data} );
+
     }
 }
 
-export function fetchPosts() {
+export function fetchPosts(skip) {
 
     return async (dispatch)=>{
         try {
-            const res = await axios.get('/api/posts');
+            const res = await axios.get('/api/posts/'+skip);
             dispatch({type: FETCH_POSTS, payload: res.data});
         }catch (e) {
             console.log(e)
@@ -77,9 +83,15 @@ export function findUser(name,history) {
 
     return async (dispatch)=> {
 
-            const res = await axios.get('/api/users/'+name);
+        try {
+            const res = await axios.get('/api/users/' + name);
             history.push('/users/' + name);
             dispatch({type: FETCH_POSTS, payload: res.data});
+        }catch (e) {
+            dispatch({type: CATCH_ERROR, payload: {type:"user_not_found",error:"this user doesn't exist"}});
+
+        }
+
         }
 
 }
@@ -96,9 +108,12 @@ export function signUp(values,history) {
 
             return
         }
-            if (!res.data)
-                history.push('/');
-            else
+        if (!res.data) {
+            dispatch({type: SHOW_MESSAGE, payload: {type:"verify_email"}});
+
+            history.push('/showMessage');
+        }
+        else
             dispatch({type: CATCH_ERROR, payload: res.data});
 
 
@@ -123,6 +138,30 @@ export function logIn(values,history) {
             return
         }
 
+
+
+    }
+}
+
+export function resendToken(value,history) {
+
+    return async (dispatch) => {
+
+
+        let res;
+        try {
+            res = await axios.post('/api/resendToken', {email:value});
+        }catch (e) {
+
+            return
+        }
+        if (!res.data) {
+            dispatch({type: SHOW_MESSAGE, payload: {type:'verify_email'}});
+
+            history.push('/showMessage');
+        }
+        else
+            dispatch({type: CATCH_ERROR, payload: res.data});
 
 
     }
@@ -218,6 +257,7 @@ export function sendMessage(myId,name,message) {
 }
 
 export function uploadImage(file){
+    console.log(file)
     return async (dispatch)=> {
         try {
             const res = await axios.post('/api/upload', file);

@@ -30,7 +30,7 @@ class UploadImage extends Component{
                     <input  name='imageData' type='file' className='input-field lighten-1' id='upload' style={{width:'200px'}}onChange={(event) => this.setState({file : event.target.files[0] ,fileURL:URL.createObjectURL(event.target.files[0])})}/>
                     <img style={{width:'100px',height:'100px'}} src={this.state.fileURL}/>
                     <button className='right btn-flat teal ' onClick={this.handleSubmit}>
-                        <i className="material-icons">search</i>
+                        <i className="material-icons">send</i>
                     </button>
                 </div>
             </div>

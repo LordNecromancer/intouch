@@ -5,5 +5,4 @@ module.exports={
     cookieKey : process.env.COOKIE_KEY,
     email:process.env.EMAIL_ADDRESS,
     emailPassword:process.env.EMAIL_PASSWORD,
-    host:''
 }

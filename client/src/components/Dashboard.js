@@ -8,15 +8,45 @@ import CommentSection from "./CommentSection";
 import UploadImage from "./UploadImage";
 import handleMeta from "./general/handleMeta";
 import keys from '../keys'
+import '../flex.css'
 
 
 class Dashboard extends Component{
 
+    state={
+        skip:0
+    }
     componentDidMount() {
+    //     console.log("you're at the bottom of the page");
 
-       this.props.fetchPosts();
+        window.addEventListener('scroll', ()=> {
+            const winScroll =
+                document.body.scrollTop || document.documentElement.scrollTop
+
+            const height =
+                document.documentElement.scrollHeight -
+                document.documentElement.clientHeight
+
+            const scrolled = winScroll / height;
+            if ( scrolled===1) {
+                this.setState((state)=> {return {skip:state.skip+1}})
+                this.props.fetchPosts(this.state.skip);
+            }
+        });
+       this.props.fetchPosts(this.state.skip);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('scroll',()=>{
+            this.setState({skip:0})
+        });
     }
 
+    // handleScroll = (e) => {
+    //     console.log("you're at the bottom of the page");
+    //     const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    //     if (bottom) { this.setState((state)=> {return {skip:state.skip+1}},this.props.fetchPosts(this.state.skip))
+    //     }
+    // }
     handleNoPosts = () =>{
       if(this.props.posts.length<1){
 
@@ -43,7 +73,7 @@ class Dashboard extends Component{
 
 
                 <ul>
-                    {this.props.posts.reverse().map((post) =>{
+                    {this.props.posts.map((post) =>{
 
                         return(
 
@@ -84,6 +114,14 @@ class Dashboard extends Component{
                                         {/*<button className="btn-floating" onClick={()=>this.props.likePost(post._id)}>*/}
                                         {/*    <i className="material-icons">{(post.likes.filter(e => e.username === this.props.current_user.username).length > 0)? 'favorite': 'favorite_border'}</i>*/}
 
+                                        <div className='flex-container-posts-image'>
+                                            {post.images.map((image)=> {
+                                                return(
+
+                                                <img style={{width:'200px',height:'200px' , padding:'30px'}}src={image ?  keys.host+image: ''}/>
+                                                )
+                                            } )}
+                                        </div>
                                         {/*</button>*/}
                                         <div className='description' style={{marginBottom:'75px'}}>
                                             {post.content}

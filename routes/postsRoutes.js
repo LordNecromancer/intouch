@@ -7,34 +7,15 @@ const requireLogin= require('../middleware/requireLogin');
 
 module.exports = app => {
     app.get(
-        '/api/posts',requireLogin,
+        '/api/posts/:skip',requireLogin,
         async (req, res) => {
-                const posts = await Post.find({_user: req.user.id},{comments:{$slice : [0,10]}}).populate('likes','username').populate({path:'comments._user',model:'users',select:'imageName'});
+            let skip=parseInt(req.params.skip);
+                const posts = await Post.find({_user: req.user.id},{comments:{$slice : [0,10]}}).sort({createdAt:-1}).skip(skip*10).limit(10).populate('likes','username').populate({path:'comments._user',model:'users',select:'imageName'});
                 res.send(posts);
 
         }
     );
-    app.post(
-        '/api/post',requireLogin,
-        async (req, res) => {
-            const {title,content} = req.body.values;
-            const{ postId}=req.body;
 
-            if (!postId) {
-                await new Post({
-                    title: title,
-                    content: content,
-                    _user: req.user.id,
-                }).save();
-
-            }else{
-                await Post.updateOne({_id:postId},{title:title,content:content,isEdited:true}).exec();
-            }
-            const posts=await Post.find({_user:req.user.id});
-            res.send(posts);
-
-        }
-    );
 
     app.post(
         '/api/post/delete',requireLogin,

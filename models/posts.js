@@ -11,6 +11,7 @@ const postSchema = new Schema({
     commentCounter:{type:Number,default:0},
     _user:{type : Schema.Types.ObjectId , ref :'users'},
     likes:[{type:Schema.Types.ObjectId, ref:'users'}],
+    images:[{type:String}],
     isEdited:{type:Boolean,default:false},
     comments:[commentSchema]
 },{timestamps:true});

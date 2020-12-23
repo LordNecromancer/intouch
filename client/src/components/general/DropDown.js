@@ -18,7 +18,7 @@ export default class DropDown extends Component {
 
     toggleDropDown=(event) =>{
         event.preventDefault();
-        this.setState((state) => {return {show :!this.state.show}},this.handleEventListener)
+        this.setState((state) => {return {show :state.show}},this.handleEventListener)
 
     }
 

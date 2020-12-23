@@ -15,7 +15,7 @@ export default function postReducer(state={},actions){
             return {...state,[actions.payload._id]:actions.payload};
 
         case FETCH_POSTS:
-                return {..._.mapKeys(actions.payload,'_id')};
+                return {..._.mapKeys(actions.payload,'_id'),...state};
 
 
         default :

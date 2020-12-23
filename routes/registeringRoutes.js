@@ -48,7 +48,7 @@ module.exports = app => {
            // let t=req.body.token;
         let token=await Token.findOne({token:t});
 
-        if (!token)  return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
+        if (!token)  return res.status(400).send({ type: 'token_not_found', msg: 'We were unable to find a valid token. Your token my have expired.' });
 
 
             let user=await User.findOne({_id:token._user})
@@ -62,11 +62,76 @@ module.exports = app => {
 
     });
 
+    app.post(
+        '/api/resendToken', async (req,res)=>{
+            let {email}=req.body;
+
+            User.findOne({ email: email}, function (err, user) {
+                if (!user) return res.status(400).send({ msg: 'We were unable to find a user with that email.' });
+                if (user.isActive) return res.status(400).send({ msg: 'This account has already been verified. Please log in.' });
+
+                // Create a verification token, save it, and send email
+                let token = new Token({ _user: user._id, token: crypto.randomBytes(16).toString('hex') });
+
+                // Save the token
+                token.save(function (err) {
+                    if (err) { return res.status(500).send({ msg: err.message }); }
+
+                    // Send the email
+                   sendEmail(user,req,token,res);
+                });
+
+            });
+
+            // let t=req.body.token;
+
+
+
+
+        });
+
     app.post('/api/isValid/username',(req,res) =>{
 
         const {username}=req.body;
 
     })
+
+    function sendEmail(user, req, token, res) {
+        const options = {
+
+            service: 'hotmail',
+            auth: {
+                user: keys.email,
+                pass: keys.emailPassword
+                //api_key: keys.sendgridAPIKey
+            }
+
+        };
+
+        const client = nodemailer.createTransport(smtpTransport(options));
+
+        const email = {
+            from: 'intouch.social@outlook.com',
+            replyTo: 'no_reply.intouch.social@outlook.com',
+            to: user.email,
+            subject: 'confirmation token',
+            text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n',
+            html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n',
+
+        };
+
+        //  var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
+        // var mailOptions = { from: 'no-reply@yourwebapplication.com', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
+        client.sendMail(email, function (err, info) {
+            if (err) {
+                res.send({type: "sign_up_error", error: err});
+            } else {
+                console.log('Message sent: ' + info.response);
+                res.send(false);
+
+            }
+        });
+    }
 
     app.post('/api/sign_up' ,requireLogout, async (req,res) =>{
         var {username,email,password}= req.body;
@@ -74,51 +139,27 @@ module.exports = app => {
         let existingUser=await User.findOne({username : username});
         if(!existingUser) {
 
-            let eu=await User.findOne({email : email});
+            let eu=await User.findOne({email : email,username:{$ne:null}});
             if(!eu) {
 
                // console.log(email)
 
-                const user = await new User({
-                    username: username,
-                    email: req.body.email,
-                    password: password
-                }).save();
+                let user=await User.findOne({email : email});
+                if(user){
+                    user.username=username;
+                    user.password=password;
+                    await user.save();
+                }else {
+                     user = await new User({
+                        username: username,
+                        email: req.body.email,
+                        password: password
+                    }).save();
+                }
 
                 const token = await new Token({_user: user._id, token: crypto.randomBytes(16).toString('hex')}).save();
-                const options = {
-                    service: 'gmail',
-                    host: 'smtp.gmail.com',
-                    auth: {
-                        user: keys.email,
-                        pass: keys.emailPassword
-                        //api_key: keys.sendgridAPIKey
-                    }
+                sendEmail(user, req, token, res);
 
-                };
-
-                const client = nodemailer.createTransport(smtpTransport(options));
-
-                const email = {
-                    from: 'no-reply@gmail.com',
-                    to: user.email,
-                    subject: 'confirmation token',
-                    text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n',
-                    html: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n',
-
-                };
-
-                //  var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
-                // var mailOptions = { from: 'no-reply@yourwebapplication.com', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n' };
-                client.sendMail(email, function (err, info) {
-                    if (err) {
-                        res.send({type: "sign_up_error", error: err});
-                    } else {
-                        console.log('Message sent: ' + info.response);
-                        res.send(false);
-
-                    }
-                });
             }else{
                 res.send({type: "sign_up_email_error", error: "this email is already registered"});
 
@@ -128,4 +169,4 @@ module.exports = app => {
             res.send({type: "sign_up_username_error", error: "username already exists"});
         }
     });
-}
+};

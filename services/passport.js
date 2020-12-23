@@ -24,19 +24,26 @@ passport.use(new googleStrategy({
     },
     async (accessToken, refreshToken,profile,done)=>{
 
+    console.log(profile)
 
         try{
 
-            const existingUser= await User.findOne({googleId: profile.id}).populate('friendRequestsReceived','username').populate('friends','username').populate('friendRequestsSent','username');
+            const existingUser= await User.findOne({$or:[{googleId: profile.id},{email:profile.emails[0].value}]}).populate('friendRequestsReceived','username').populate('friends','username').populate('friendRequestsSent','username');
 
             if(existingUser){
 
+                if(!existingUser.googleId){
+                    existingUser.googleId=profile.id;
+                    await existingUser.save();
+                }
                 return done(null,existingUser);
 
             }
             const user=await  new User({
                 googleId:profile.id,
                 name : profile.name.givenName,
+                email:profile.emails[0].value,
+                imageName:profile.photos[0].value
                // username:profile.emails[0].value
             }).save();
 

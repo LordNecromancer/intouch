@@ -11,7 +11,6 @@ export default function errorReducer(state=null,action) {
             if(action.payload) {
 
                 if (action.payload.type === "sign_up_username_error") {
-                    console.log(action.payload.type)
                     throw new SubmissionError({
                         username: action.payload.error
                     });
@@ -26,6 +25,10 @@ export default function errorReducer(state=null,action) {
                     throw new SubmissionError({
                         username: action.payload.error
                     });
+                } else if (action.payload.type === "user_not_found") {
+
+                   return {error:action.payload.error}
+
                 } else {
                     return null
                 }

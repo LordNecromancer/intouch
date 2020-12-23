@@ -10,3 +10,7 @@ export const FETCH_POST="fetch_post";
 export const UPDATE_LIKES="update_likes";
 export const FETCH_FEED="fetch_feed";
 export const UPDATE_CHATS="update_chats";
+export const SHOW_MESSAGE="show_message";
+export const RESEND_TOKEN="resend_token";
+
+
