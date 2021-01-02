@@ -160,7 +160,6 @@ app.post(
 
     }
 );
-app.get('/',(req,res)=>res.send(3))
 app.use(express.static(path.join(__dirname, '/public/images')));
 
 app.use('/', function(req,res,next){
@@ -185,7 +184,6 @@ if(process.env.NODE_ENV==='production'){
     app.use(express.static(path.join(__dirname,'/client/build')));
 
     app.get('*', (req,res) => {
-        console.log(path.join(__dirname,'client/build','index.html'))
         res.sendFile(path.join(__dirname,'client/build','index.html'));
     })
 }
