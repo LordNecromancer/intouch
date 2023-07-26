@@ -16,7 +16,7 @@ const requireLogin= require('./middleware/requireLogin');
 
 const requireLogout= require('./middleware/requireLogout');
 require('./services/passport');
-
+require('dotenv').config({ path: keys });
 
 const User=mongoose.model('users');
 const Post=mongoose.model('posts');

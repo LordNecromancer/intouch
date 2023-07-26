@@ -21,7 +21,7 @@ state={
                 images:this.props.location.state.images
             })
         console.log(this.props.location.state.images)
-        this.setState({imageData:this.props.location.state.images},()=>console.log(this.state.imageData))
+       // this.setState({imageData:this.props.location.state.images},()=>console.log(this.state.imageData))
     }
 
 
