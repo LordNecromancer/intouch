@@ -15,7 +15,7 @@ passport.deserializeUser(async (id,done)=>{
     done(null,user);
 
 });
-
+/*
 passport.use(new googleStrategy({
         clientID : keys.googleClientID,
         clientSecret:keys.googleClientSecret,
@@ -53,6 +53,8 @@ passport.use(new googleStrategy({
 
         }
     }));
+
+ */
 
 passport.use(new localStrategy(
     async (username,password,done) =>{
