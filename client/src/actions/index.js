@@ -97,6 +97,8 @@ export function findUser(name,history) {
 }
 
 export function signUp(values,history) {
+    console.log(values)
+
 
     return async (dispatch) => {
 
@@ -121,6 +123,7 @@ export function signUp(values,history) {
 }
 
 export function logIn(values,history) {
+    console.log(values)
 
 
     return async (dispatch)=> {

@@ -56,10 +56,16 @@ passport.use(new googleStrategy({
 
 passport.use(new localStrategy(
     async (username,password,done) =>{
+        console.log('user')
+
         const user=await User.findOne({$or:[{username : username } ,{email:username}],password :password,isActive:true}).select({password:false}).populate('friendRequestsReceived ','username').populate('friends','username').populate('friendRequestsSent','username');
-        console.log(user)
-        if(user)
+        if(user){
+            console.log(user)
             return done(null,user);
+
+
+        }
+        console.log('error')
 
         return done(null,false);
     }));

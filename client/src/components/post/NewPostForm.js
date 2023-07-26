@@ -17,13 +17,19 @@ state={
         this.props.initialize(
             {
                 title:this.props.location.state.title,
-                content:this.props.location.state.content
+                content:this.props.location.state.content,
+                images:this.props.location.state.images
             })
+        console.log(this.props.location.state.images)
+        this.setState({imageData:this.props.location.state.images},()=>console.log(this.state.imageData))
     }
 
 
     handleImageData=(images) =>{
-        this.setState({imageData:images},()=>console.log(this.state.imageData))
+    console.log(images)
+    if (images) {
+        this.setState({imageData: images}, () => console.log(this.state.imageData))
+    }
 
 
 
@@ -51,6 +57,8 @@ state={
 
 
                 //   form.append('imageName','img');
+                console.log(this.state.imageData)
+
                await  this.state.imageData.forEach(  (file)=>  form.append('imageData',file))
 
                 form.append('values',JSON.stringify(values))
@@ -58,7 +66,12 @@ state={
 
 
 
-                this.props.sendPost(this.props.location.state.postId,values,form,this.props.history,this.props.user._id)})}>
+                this.props.sendPost(this.props.location.state.postId,values,form,this.props.history,this.props.user._id)
+                //this.props.history.push('/dashboard')
+            })
+
+
+            }>
 
             {this.renderContent()}
 

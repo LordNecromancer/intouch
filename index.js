@@ -87,9 +87,11 @@ require('./routes/postsRoutes')(app);
 
 const storage=multer.diskStorage({
     destination: (req,file,cb) =>{
-        let userId=req.params.userId;
+      //  let userId=req.params.userId;
+        let userId=req.user.id
+        console.log(userId)
 
-        let path = `./public/images/${userId}`;
+        let path = `public/images/${userId}`;
         fs.mkdirsSync(path);
         cb(null,path)
     },
@@ -127,12 +129,14 @@ const upload=multer({
 
 
 try {
-    mongoose.connect(keys.mongoURI);
+    mongoose.connect(keys.mongoURI,
+        { useNewUrlParser: true, useUnifiedTopology: true });
 }catch (e) {
     console.log('Error :       '+e);
 }
 
 app.post('/api/upload',requireLogin,upload.single('imageData'),async (req,res) =>{
+    console.log(req.user.id)
     await User.updateOne({_id:req.user.id},{imageName:req.file.filename});
     const user=await User.findOne({_id:req.user.id});
     res.send(user);
@@ -143,6 +147,8 @@ app.post(
         let images=req.files.map((image) => image.filename)
         const {title,content} = JSON.parse(req.body.values);
         const{ postId}=req.body;
+        console.log(req.user.id)
+
 
         if (!postId) {
             await new Post({

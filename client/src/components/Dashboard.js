@@ -86,7 +86,8 @@ class Dashboard extends Component{
                                                         state :{
                                                             title : post.title,
                                                             content:post.content,
-                                                            postId:post._id
+                                                            postId:post._id,
+                                                            images:post.images
                                                         }
                                                     }}>
                                                 edit

@@ -27,6 +27,8 @@ class LogInForm extends Component{
     }
 
     render() {
+        console.log('values')
+
 
         return(
             <div className="flex-container">

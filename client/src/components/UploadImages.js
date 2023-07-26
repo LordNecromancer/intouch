@@ -17,7 +17,7 @@ class UploadImages extends Component{
         const form=new FormData();
 
         //   form.append('imageName','img');
-        form.append('files',this.state.file);
+        form.append('files',this.state.files);
 
         this.props.uploadImage(form)
     }

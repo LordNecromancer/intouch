@@ -23,7 +23,9 @@ import Feed from "./Feed";
 import '../flex.css'
 
 
+
 class App extends Component{
+
 
 
     componentDidMount() {
@@ -34,6 +36,7 @@ class App extends Component{
     }
 
     render() {
+
         return(
             <div  >
 
