@@ -25,6 +25,10 @@ const Chat=mongoose.model('chats');
 
 
 const app=express();
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+http.listen(10000);
 //app.use(flash());
 
 const http=require('http').Server(app);
