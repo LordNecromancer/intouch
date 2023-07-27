@@ -25,10 +25,7 @@ const Chat=mongoose.model('chats');
 
 
 const app=express();
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
-app.listen(9153);
+
 //app.use(flash());
 
 const http=require('http').Server(app);
@@ -188,10 +185,6 @@ app.use('/', function(req,res,next){
 //     res.sendFile('public/images'+p+image,{root:__dirname });
 // });
 app.use('/',express.static(path.join(__dirname, '/public/images')));
-app.use(express.static('client/build'));
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
 
 if(process.env.NODE_ENV==='production'){
 
@@ -204,6 +197,6 @@ if(process.env.NODE_ENV==='production'){
 
 const PORT=process.env.PORT || 5000;
 
-http.listen(10000);
+http.listen(PORT);
 
 
