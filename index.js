@@ -172,7 +172,6 @@ app.use(express.static(path.join(__dirname, '/public/images')));
 app.use('/', function(req,res,next){
     if(req.user){
         req.url = req.user.id+req.url// add something to lead to different directory
-        console.log(2)
 
     }
     next();
