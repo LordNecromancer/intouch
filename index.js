@@ -167,7 +167,7 @@ app.post(
 
     }
 );
-app.use(express.static(path.join(__dirname, '/public/images')));
+app.use(express.static(path.join(__dirname, 'public','images')));
 
 app.use('/', function(req,res,next){
     if(req.user){
@@ -183,7 +183,7 @@ app.use('/', function(req,res,next){
 //
 //     res.sendFile('public/images'+p+image,{root:__dirname });
 // });
-app.use('/',express.static(path.join(__dirname, 'public/images')));
+app.use('/',express.static(path.join(__dirname, 'public','images')));
 //app.use(express.static('client'))
 
 if(process.env.NODE_ENV==='production'){
